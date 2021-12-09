@@ -30,10 +30,12 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
                 .AddOptions<ApplicationSettings>()
                 .Configure<IConfiguration>((settings, configuration) =>
                     configuration.Bind(settings));
-            services.AddSingleton(s => s.GetRequiredService<IOptions<ApplicationSettings>>().Value);
+            services.ConfigureFromOptions(settings => settings);
         }
 
-        public static void ConfigureFromOptions<TOptions>(this IServiceCollection services, Func<ApplicationSettings, TOptions> func)
+        public static void ConfigureFromOptions<TOptions>(
+            this IServiceCollection services,
+            Func<ApplicationSettings, TOptions> func)
             where TOptions : class, new()
         {
             services.AddSingleton(s =>
