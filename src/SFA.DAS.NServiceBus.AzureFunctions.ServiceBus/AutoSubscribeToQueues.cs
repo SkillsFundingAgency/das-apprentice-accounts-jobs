@@ -26,7 +26,7 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus
             await CreateQueuesWithReflection(assemblyWithTriggerAttribute, managementClient, errorQueue, topicName, logger);
         }
 
-        private static async Task CreateQueuesWithReflection(
+        public static async Task CreateQueuesWithReflection(
             Assembly assemblyWithTriggerAttribute,
             ManagementClient managementClient,
             string? errorQueue = null,
