@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.LoginServiceEventHandlers
 {
-    internal class LoginEmailAddressUpdated : IHandleMessages<UpdateEmailAddressCommand>
+    public class LoginEmailAddressUpdated : IHandleMessages<UpdateEmailAddressCommand>
     {
         private readonly IApprenticeAccountsApi _api;
         private readonly ILogger<LoginEmailAddressUpdated> _logger;

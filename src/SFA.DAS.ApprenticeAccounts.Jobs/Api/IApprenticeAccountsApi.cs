@@ -5,7 +5,7 @@ using System;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
 {
-    internal interface IApprenticeAccountsApi
+    public interface IApprenticeAccountsApi
     {
         [Patch("/apprentices/{apprenticeId}")]
         Task UpdateApprentice([Path] Guid apprenticeId, [Body] JsonPatchDocument<Apprentice> patch);
