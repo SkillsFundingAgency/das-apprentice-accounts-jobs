@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
-		<AzureFunctionsVersion>v4</AzureFunctionsVersion>
+		<AzureFunctionsVersion>v3</AzureFunctionsVersion>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
@@ -31,6 +31,9 @@
 		<None Update="local.settings.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</None>
+		<None Update="nlog.config">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 </Project>

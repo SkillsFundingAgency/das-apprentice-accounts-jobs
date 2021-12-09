@@ -1,19 +1,22 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RestEase.HttpClientFactory;
 using SFA.DAS.ApprenticeAccounts.Jobs.Api;
+using SFA.DAS.Http.Configuration;
+using SFA.DAS.Http.TokenGenerators;
 using System;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
     internal static class AccountsApiClientConfiguration
     {
-        public static void AddAccountsApiClient(this IServiceCollection services)
+        public static IServiceCollection AddInnerApi(this IServiceCollection services)
         {
+            services.AddTransient<IManagedIdentityClientConfiguration>(sp => sp.GetRequiredService<ApiOptions>());
+            services.AddTransient<IManagedIdentityTokenGenerator, ManagedIdentityTokenGenerator>();
             services.AddTransient<Http.MessageHandlers.DefaultHeadersHandler>();
             services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();
-            services.AddTransient<Http.MessageHandlers.ApimHeadersHandler>();
 
-            services.AddHttpClient("AccountsApi")
+            var builder = services.AddHttpClient("AccountsApi")
                 .ConfigureHttpClient((sp, client) =>
                 {
                     var apiOptions = sp.GetRequiredService<ApiOptions>();
@@ -21,8 +24,21 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
                 })
                 .UseWithRestEaseClient<IApprenticeAccountsApi>()
                 .AddHttpMessageHandler<Http.MessageHandlers.DefaultHeadersHandler>()
-                .AddHttpMessageHandler<Http.MessageHandlers.ApimHeadersHandler>()
                 .AddHttpMessageHandler<Http.MessageHandlers.LoggingMessageHandler>();
+
+            if (UseManagedIdentity())
+            {
+                services.AddTransient<Http.MessageHandlers.ManagedIdentityHeadersHandler>();
+                builder.AddHttpMessageHandler<Http.MessageHandlers.ManagedIdentityHeadersHandler>();
+            }
+
+            return services;
+        }
+
+        private static bool UseManagedIdentity()
+        {
+            string environment = Environment.GetEnvironmentVariable("AZURE_FUNCTIONS_ENVIRONMENT") ?? "";
+            return !environment.Equals("Development", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

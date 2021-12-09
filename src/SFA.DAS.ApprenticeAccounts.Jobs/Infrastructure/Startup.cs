@@ -27,8 +27,9 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 
             builder.Services.AddApplicationOptions();
             builder.Services.ConfigureFromOptions(f => f.ApprenticeAccountsApi);
-            builder.Services.AddSingleton<IApimClientConfiguration>(x => x.GetRequiredService<ApiOptions>());
-            builder.Services.AddAccountsApiClient();
+            builder.Services.AddSingleton<IManagedIdentityClientConfiguration>(
+                x => x.GetRequiredService<ApiOptions>());
+            builder.Services.AddInnerApi();
         }
     }
 }
