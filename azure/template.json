@@ -29,6 +29,9 @@
         "resourceGroupLocation": {
             "type": "string"
         },
+        "sharedServiceBusName": {
+            "type": "string"
+        },
         "sharedStorageAccountConnectionString": {
             "type": "securestring"
         },
@@ -249,6 +252,31 @@
                 "[variables('resourceGroupName')]",
                 "[variables('appServicePlanName')]"
             ]
+        },
+        {
+            "apiVersion": "2020-06-01",
+            "name": "[concat(variables('functionAppName'), '-sb-role')]",
+            //"name": "[concat(variables('functionAppName'), '-sb-role', parameters('utcValue'))]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'role-assignments/role-assignment-service-bus.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "principalId": {
+                        "value": "[reference(variables('functionAppName')).outputs.managedServiceIdentityId.value]"
+                    },
+                    "assignmentType": {
+                        "value": "ServiceBusOwner"
+                    },
+                    "resourceName": {
+                        "value": "[parameters('sharedServiceBusName')]"
+                    }
+                }
+            }
         }
     ],
     "outputs": {
