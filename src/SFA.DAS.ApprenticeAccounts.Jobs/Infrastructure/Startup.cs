@@ -10,7 +10,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
     internal class Startup : FunctionsStartup
     {
-        public const string EndpointName = "SFA.DAS.ApprenticeAccounts";
+        public const string EndpointName = "SFA-DAS-ApprenticeAccounts";
 
         public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
         {
