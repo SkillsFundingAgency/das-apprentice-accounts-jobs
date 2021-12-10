@@ -1,8 +1,6 @@
 ﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
 using NServiceBus;
 using SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure;
-using SFA.DAS.Http.Configuration;
 using SFA.DAS.NServiceBus.AzureFunctions.ServiceBus;
 
 [assembly: FunctionsStartup(typeof(Startup))]
@@ -12,7 +10,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
     internal class Startup : FunctionsStartup
     {
-        public const string EndpointName = "Bob";
+        public const string EndpointName = "SFA.DAS.ApprenticeAccounts";
 
         public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
         {
