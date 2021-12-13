@@ -74,8 +74,7 @@
     "resources": [
         {
             "apiVersion": "2021-04-01",
-            "name": "[variables('resourceGroupName')]",
-            //"name": "[concat(variables('resourceGroupName'), '-', parameters('utcValue'))]",
+            "name": "[concat(variables('resourceGroupName'), '-', parameters('utcValue'))]",
             "type": "Microsoft.Resources/resourceGroups",
             "location": "[parameters('resourceGroupLocation')]",
             "tags": "[parameters('tags')]",
@@ -83,8 +82,7 @@
         },
         {
             "apiVersion": "2021-04-01",
-            "name": "[parameters('subnetObject').name]",
-            //"name": "[concat(parameters('subnetObject').name, '-', parameters('utcValue'))]",
+            "name": "[concat(parameters('subnetObject').name, '-', parameters('utcValue'))]",
             "type": "Microsoft.Resources/deployments",
             "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
             "properties": {
@@ -112,13 +110,12 @@
                 }
             },
             "dependsOn": [
-                "[variables('resourceGroupName')]"
+                "[concat(variables('resourceGroupName'), '-', parameters('utcValue'))]"
             ]
         },
         {
             "apiVersion": "2021-04-01",
-            "name": "[variables('appServicePlanName')]",
-            //"name": "[concat(variables('appServicePlanName'), '-', parameters('utcValue'))]",
+            "name": "[concat(variables('appServicePlanName'), '-', parameters('utcValue'))]",
             "type": "Microsoft.Resources/deployments",
             "resourceGroup": "[variables('resourceGroupName')]",
             "properties": {
@@ -140,13 +137,12 @@
                 }
             },
             "dependsOn": [
-                "[variables('resourceGroupName')]"
+                "[concat(variables('resourceGroupName'), '-', parameters('utcValue'))]"
             ]
         },
         {
             "apiVersion": "2021-04-01",
-            "name": "[concat(variables('functionAppName'), '-app-insights')]",
-            //"name": "[concat(variables('functionAppName'), '-app-insights-', parameters('utcValue'))]",
+            "name": "[concat(variables('functionAppName'), '-app-insights-', parameters('utcValue'))]",
             "type": "Microsoft.Resources/deployments",
             "resourceGroup": "[variables('resourceGroupName')]",
             "properties": {
@@ -165,13 +161,12 @@
                 }
             },
             "dependsOn": [
-                "[variables('resourceGroupName')]"
+                "[concat(variables('resourceGroupName'), '-', parameters('utcValue'))]"
             ]
         },
         {
             "apiVersion": "2021-04-01",
-            "name": "[variables('functionAppName')]",
-            //"name": "[concat(variables('functionAppName'), '-', parameters('utcValue'))]",
+            "name": "[concat(variables('functionAppName'), '-', parameters('utcValue'))]",
             "type": "Microsoft.Resources/deployments",
             "resourceGroup": "[variables('resourceGroupName')]",
             "properties": {
@@ -191,7 +186,7 @@
                         "value": "[variables('resourceGroupName')]"
                     },
                     "subnetResourceId": {
-                        "value": "[reference(parameters('subnetObject').name).outputs.SubnetResourceId.value]"
+                        "value": "[reference(concat(parameters('subnetObject').name, '-', parameters('utcValue'))).outputs.SubnetResourceId.value]"
                     },
                     "functionAppAppSettings": {
                         "value": {
@@ -214,7 +209,7 @@
                                 },
                                 {
                                     "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                    "value": "[reference(concat(variables('functionAppName'), '-app-insights')).outputs.InstrumentationKey.value]"
+                                    "value": "[reference(concat(variables('functionAppName'), '-app-insights', parameters('utcValue'))).outputs.InstrumentationKey.value]"
                                 },
                                 {
                                     "name": "AzureWebJobsStorage",
@@ -249,14 +244,13 @@
                 }
             },
             "dependsOn": [
-                "[variables('resourceGroupName')]",
-                "[variables('appServicePlanName')]"
+                "[concat(variables('resourceGroupName'), '-', parameters('utcValue'))]",
+                "[concat(variables('appServicePlanName'), '-', parameters('utcValue'))]"
             ]
         },
         {
             "apiVersion": "2021-04-01",
-            "name": "[concat(variables('functionAppName'), '-sb-role')]",
-            //"name": "[concat(variables('functionAppName'), '-sb-role', parameters('utcValue'))]",
+            "name": "[concat(variables('functionAppName'), '-sb-role', parameters('utcValue'))]",
             "type": "Microsoft.Resources/deployments",
             "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
             "properties": {
@@ -267,7 +261,7 @@
                 },
                 "parameters": {
                     "principalId": {
-                        "value": "[reference(variables('functionAppName')).outputs.managedServiceIdentityId.value]"
+                        "value": "[reference(concat(variables('functionAppName'), '-', parameters('utcValue'))).outputs.managedServiceIdentityId.value]"
                     },
                     "assignmentType": {
                         "value": "ServiceBusOwner"
