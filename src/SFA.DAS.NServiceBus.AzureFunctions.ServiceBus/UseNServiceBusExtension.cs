@@ -6,7 +6,7 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus
 {
     public static class UseNServiceBusExtension
     {
-        public const string DefaultConnectionStringName = "NServiceBusConnectionString";
+        public const string DefaultConnectionStringName = "AzureWebJobsServiceBus";
 
         public static void UseAzureFunctionNServiceBus(
             this IFunctionsHostBuilder builder,
