@@ -32,11 +32,11 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus
             string connectionStringName,
             Action<ServiceBusTriggeredEndpointConfiguration> configurationFactory)
         {
-            builder.UseNServiceBus(() =>
+            builder.UseNServiceBus(hostConfig =>
             {
                 var configuration = new ServiceBusTriggeredEndpointConfiguration(
                     endpointName: endpointName,
-                    connectionStringName: connectionStringName);
+                    configuration: hostConfig);
 
                 configuration.LogDiagnostics();
                 configuration.DefineConventions();
