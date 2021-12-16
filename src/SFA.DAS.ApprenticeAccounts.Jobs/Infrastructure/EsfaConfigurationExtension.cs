@@ -1,4 +1,4 @@
-﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -11,8 +11,6 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
     {
         internal static void ConfigureConfiguration(this IFunctionsConfigurationBuilder builder)
         {
-            builder.ConfigurationBuilder.AddJsonFile("local.settings.json", optional: true);
-
             var preConfig = builder.ConfigurationBuilder.Build();
 
             builder.ConfigurationBuilder.AddAzureTableStorage(options =>

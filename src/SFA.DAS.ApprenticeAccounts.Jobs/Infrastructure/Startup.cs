@@ -15,6 +15,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
         public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
         {
             builder.ConfigureConfiguration();
+            builder.ConfigureServiceBusManagedIdentity();
         }
 
         public override void Configure(IFunctionsHostBuilder builder)

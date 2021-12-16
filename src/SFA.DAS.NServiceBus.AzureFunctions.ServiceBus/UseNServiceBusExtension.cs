@@ -22,7 +22,7 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus
             this IFunctionsHostBuilder builder,
             string endpointName,
             Action<ServiceBusTriggeredEndpointConfiguration> configurationFactory)
-{
+        {
             builder.UseAzureFunctionNServiceBus(
                 endpointName, DefaultConnectionStringName, configurationFactory);
         }
@@ -38,7 +38,7 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus
                 var configuration = new ServiceBusTriggeredEndpointConfiguration(
                     endpointName: endpointName);
 
-                var managedIdentityConnectionStringName = $"{connectionStringName}:fullyQualifiedNamespace";
+                var managedIdentityConnectionStringName = $"{connectionStringName}__fullyQualifiedNamespace";
                 var managedIdentityConnectionString = hostConfig[managedIdentityConnectionStringName]
                 ?? throw new Exception(
                     $"Azure Service Bus connection string namespace has not been configured. " +
