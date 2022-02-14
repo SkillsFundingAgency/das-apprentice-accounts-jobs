@@ -54,8 +54,7 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus
 
             if(triggerAttribute == null)
             {
-                throw new Exception(
-                    $"No [NServiceBusTriggerFunctionAttribute] attribute was found in {assemblyWithTriggerAttribute.FullName}");
+                throw new EndpointQueueAttributeNotFoundException(assemblyWithTriggerAttribute);
             }
 
             return triggerAttribute.EndpointName;
