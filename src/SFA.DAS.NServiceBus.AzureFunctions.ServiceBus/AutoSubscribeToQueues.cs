@@ -3,6 +3,7 @@ using Microsoft.Azure.ServiceBus.Management;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using NServiceBus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,16 +34,7 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus
             string topicName = "bundle-1",
             ILogger? logger = null)
         {
-            var attribute = assemblyWithTriggerAttribute
-                .GetTypes()
-                .SelectMany(t => t.GetMethods())
-                .Where(m => m.GetCustomAttribute<FunctionNameAttribute>(false) != null)
-                .SelectMany(m => m.GetParameters())
-                .SelectMany(p => p.GetCustomAttributes<ServiceBusTriggerAttribute>(false))
-                .FirstOrDefault()
-                ?? throw new Exception("No endpoint was found");
-
-            var endpointQueueName = attribute.QueueName;
+            var endpointQueueName = FindEndpointQueueName(assemblyWithTriggerAttribute);
 
             logger?.LogInformation("Queue Name: {queueName}", endpointQueueName);
 
@@ -52,6 +44,21 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus
             await CreateQueue(errorQueue, managementClient, logger);
 
             await CreateSubscription(topicName, managementClient, endpointQueueName, logger);
+        }
+
+        private static string FindEndpointQueueName(Assembly assemblyWithTriggerAttribute)
+        {
+            var triggerAttribute = assemblyWithTriggerAttribute
+                .GetCustomAttributes<NServiceBusTriggerFunctionAttribute>(inherit: false)
+                .FirstOrDefault();
+
+            if(triggerAttribute == null)
+            {
+                throw new Exception(
+                    $"No [NServiceBusTriggerFunctionAttribute] attribute was found in {assemblyWithTriggerAttribute.FullName}");
+            }
+
+            return triggerAttribute.EndpointName;
         }
 
         private static async Task CreateQueue(string endpointQueueName, ManagementClient managementClient, ILogger? logger)
@@ -101,5 +108,11 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus
             }
             while (stack.Count > 0);
         }
+    }
+
+    public static class ReflectionExtensions
+    {
+        public static IEnumerable<T> GetCustomAttributes<T>(this Assembly assembly, bool inherit)
+            => assembly.GetCustomAttributes(typeof(T), inherit).Cast<T>();
     }
 }
