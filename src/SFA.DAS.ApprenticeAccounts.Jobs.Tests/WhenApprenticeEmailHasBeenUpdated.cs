@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.JsonPatch.Operations;
 using Moq;
 using NServiceBus.Testing;
 using NUnit.Framework;
+using SFA.DAS.Apprentice.LoginService.Messages.Commands;
+using SFA.DAS.ApprenticeAccounts.Jobs.Api;
+using SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.LoginServiceEventHandlers;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Tests
