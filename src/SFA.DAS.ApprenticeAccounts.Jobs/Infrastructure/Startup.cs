@@ -4,7 +4,7 @@ using SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure;
 using SFA.DAS.NServiceBus.AzureFunctions.ServiceBus;
 
 [assembly: FunctionsStartup(typeof(Startup))]
-[assembly: NServiceBusTriggerFunction(Startup.EndpointName)]
+[assembly: NServiceBusTriggerFunction(Startup.EndpointName, TriggerFunctionName = "NServiceBusTrigger")]
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
