@@ -8,7 +8,7 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus
     public class EndpointQueueAttributeNotFoundException : Exception
     {
         public EndpointQueueAttributeNotFoundException(Assembly assemblyWithTriggerAttribute)
-            : base($"No[NServiceBusTriggerFunctionAttribute] attribute was found in { assemblyWithTriggerAttribute.FullName}")
+            : base($"No [NServiceBusTriggerFunctionAttribute] attribute was found in { assemblyWithTriggerAttribute.FullName}")
         {
         }
 

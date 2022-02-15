@@ -1,9 +1,11 @@
+using FluentAssertions;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.ServiceBus.Management;
 using Moq;
 using NServiceBus;
 using NUnit.Framework;
 using SFA.DAS.NServiceBus.AzureFunctions.ServiceBus.Tests;
+using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,10 +17,11 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus.Tests
     public class TestAutoQueues
     {
         public const string EndpointName = "TheQueues";
+
         [Test]
         public async Task Create_queue_when_it_does_not_exist()
         {
-            var m = new Mock<ManagementClient>("Endpoint=sb://bob.windows.net/;Authentication=Managed Identity;");
+            var m = CreateMockServiceBusClient();
             m.Setup(x => x.QueueExistsAsync(EndpointName, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
             await AutoSubscribeToQueues.CreateQueuesWithReflection(Assembly.GetExecutingAssembly(), m.Object);
@@ -29,7 +32,7 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus.Tests
         [Test]
         public async Task Ignores_queue_when_it_does_already_exists()
         {
-            var m = new Mock<ManagementClient>("Endpoint=sb://bob.windows.net/;Authentication=Managed Identity;");
+            var m = CreateMockServiceBusClient();
             m.Setup(x => x.QueueExistsAsync(EndpointName, It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
             await AutoSubscribeToQueues.CreateQueuesWithReflection(Assembly.GetExecutingAssembly(), m.Object);
@@ -40,7 +43,7 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus.Tests
         [Test]
         public async Task Create_error_queue_when_it_does_not_exist()
         {
-            var m = new Mock<ManagementClient>("Endpoint=sb://bob.windows.net/;Authentication=Managed Identity;");
+            var m = CreateMockServiceBusClient();
             m.Setup(x => x.QueueExistsAsync($"{EndpointName}-error", It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
             await AutoSubscribeToQueues.CreateQueuesWithReflection(Assembly.GetExecutingAssembly(), m.Object);
@@ -51,7 +54,7 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus.Tests
         [Test]
         public async Task Ignores_error_queue_when_it_does_already_exists()
         {
-            var m = new Mock<ManagementClient>("Endpoint=sb://bob.windows.net/;Authentication=Managed Identity;");
+            var m = CreateMockServiceBusClient();
             m.Setup(x => x.QueueExistsAsync($"{EndpointName}-error", It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
             await AutoSubscribeToQueues.CreateQueuesWithReflection(Assembly.GetExecutingAssembly(), m.Object);
@@ -62,7 +65,7 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus.Tests
         [Test]
         public async Task Creates_subscription_when_it_does_not_exist()
         {
-            var m = new Mock<ManagementClient>("Endpoint=sb://bob.windows.net/;Authentication=Managed Identity;");
+            var m = CreateMockServiceBusClient();
             m.Setup(x => x.SubscriptionExistsAsync("bundle-1", EndpointName, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
             await AutoSubscribeToQueues.CreateQueuesWithReflection(Assembly.GetExecutingAssembly(), m.Object);
@@ -78,7 +81,7 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus.Tests
         [Test]
         public async Task Ignores_subscription_when_it_already_exists()
         {
-            var m = new Mock<ManagementClient>("Endpoint=sb://bob.windows.net/;Authentication=Managed Identity;");
+            var m = CreateMockServiceBusClient();
             m.Setup(x => x.SubscriptionExistsAsync("bundle-1", EndpointName, It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
             await AutoSubscribeToQueues.CreateQueuesWithReflection(Assembly.GetExecutingAssembly(), m.Object);
@@ -91,5 +94,24 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus.Tests
                 It.IsAny<CancellationToken>()),
                 Times.Never);
         }
+
+        [Test]
+        public async Task Throws_when_Trigger_Attribute_Not_Found_In_Assembly()
+        {
+            var m = CreateMockServiceBusClient();
+
+            Func<Task> act = () =>
+            {
+                var coreLibAssembly = Assembly.GetAssembly(typeof(string));
+                return AutoSubscribeToQueues.CreateQueuesWithReflection(coreLibAssembly, m.Object);
+            };
+
+            await act.Should()
+                .ThrowAsync<EndpointQueueAttributeNotFoundException>()
+                .WithMessage("No [NServiceBusTriggerFunctionAttribute] attribute was found in *System.Private.CoreLib*");
+        }
+
+        private static Mock<ManagementClient> CreateMockServiceBusClient()
+            => new Mock<ManagementClient>("Endpoint=sb://bob.windows.net/;Authentication=Managed Identity;");
     }
 }
