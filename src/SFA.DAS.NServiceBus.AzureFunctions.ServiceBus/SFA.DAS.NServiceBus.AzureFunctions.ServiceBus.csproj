@@ -9,8 +9,9 @@
 	<ItemGroup>
 		<PackageReference Include="Azure.Identity" Version="1.5.0" />
 		<PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
+		<PackageReference Include="Microsoft.Azure.ServiceBus" Version="5.2.0" />
 		<PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.13" />
-		<PackageReference Include="NServiceBus.AzureFunctions.InProcess.ServiceBus" Version="2.0.2" />
+		<PackageReference Include="NServiceBus.AzureFunctions.InProcess.ServiceBus" Version="3.0.0" />
 		<PackageReference Include="SFA.DAS.NServiceBus" Version="16.0.21" />
 	</ItemGroup>
 </Project>

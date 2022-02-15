@@ -35,17 +35,20 @@ namespace SFA.DAS.NServiceBus.AzureFunctions.ServiceBus
         {
             builder.UseNServiceBus(hostConfig =>
             {
+                var cs = hostConfig[connectionStringName];
+
                 var configuration = new ServiceBusTriggeredEndpointConfiguration(
-                    endpointName: endpointName);
+                    endpointName: endpointName,
+                    connectionStringName: connectionStringName);
 
-                var managedIdentityConnectionStringName = $"{connectionStringName}__fullyQualifiedNamespace";
-                var managedIdentityConnectionString = hostConfig[managedIdentityConnectionStringName]
-                ?? throw new Exception(
-                    $"Azure Service Bus connection string namespace has not been configured. " +
-                    $"Specify a connection string through an IConfiguration property named {managedIdentityConnectionStringName}.");
+                //var managedIdentityConnectionStringName = $"{connectionStringName}__fullyQualifiedNamespace";
+                //var managedIdentityConnectionString = hostConfig[managedIdentityConnectionStringName]
+                //?? throw new Exception(
+                //    $"Azure Service Bus connection string namespace has not been configured. " +
+                //    $"Specify a connection string through an IConfiguration property named {managedIdentityConnectionStringName}.");
 
-                configuration.Transport.ConnectionString(managedIdentityConnectionString);
-                configuration.Transport.CustomTokenCredential(new DefaultAzureCredential());
+                //configuration.Transport.ConnectionString(managedIdentityConnectionString);
+                //configuration.Transport.CustomTokenCredential(new DefaultAzureCredential());
 
                 configuration.LogDiagnostics();
                 configuration.DefineConventions();
