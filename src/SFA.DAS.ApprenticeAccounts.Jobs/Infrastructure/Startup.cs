@@ -10,6 +10,7 @@ using SFA.DAS.Http.Configuration;
 using SFA.DAS.Notifications.Messages.Commands;
 using SFA.DAS.NServiceBus.Configuration.AzureServiceBus;
 using System;
+using System.Collections.Generic;
 
 [assembly: FunctionsStartup(typeof(SFA.DAS.ApprenticeAccounts.Jobs.Startup))]
 
@@ -20,6 +21,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
         public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
         {
             builder.ConfigureConfiguration();
+            builder.ConfigureServiceBusManagedIdentity();
         }
 
         public override void Configure(IFunctionsHostBuilder builder)
@@ -38,7 +40,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
             {
                 var configuration = new ServiceBusTriggeredEndpointConfiguration(
                     endpointName: QueueNames.ApprenticeshipCommitmentsJobs,
-                    connectionStringName: "AzureWebJobsServiceBus");
+                    configuration: appConfiguration);
 
                 configuration.AdvancedConfiguration.SendFailedMessagesTo($"{QueueNames.ApprenticeshipCommitmentsJobs}-error");
                 configuration.LogDiagnostics();
@@ -96,5 +98,29 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
             => t.Namespace != null &&
                 t.Namespace.StartsWith("SFA.DAS") &&
                 t.Namespace.EndsWith(namespaceSuffix);
+    }
+
+    public static class ConfigureNServiceBusExtension
+    {
+        public static void ConfigureServiceBusManagedIdentity(
+            this IFunctionsConfigurationBuilder builder,
+            string connectionStringName = "AzureWebJobsServiceBus")
+        {
+            var preConfig = builder.ConfigurationBuilder.Build();
+
+            var key = $"{connectionStringName}__fullyQualifiedNamespace";
+            var serviceBusNamespace = preConfig.GetValue<string>(key);
+            if (serviceBusNamespace != null)
+            {
+                builder.ConfigurationBuilder.AddInMemoryCollection(
+                    new Dictionary<string, string>
+                    {
+                        {
+                            connectionStringName,
+                            $"Endpoint=sb://{serviceBusNamespace}/;Authentication=Managed Identity;"
+                        }
+                    });
+            }
+        }
     }
 }
