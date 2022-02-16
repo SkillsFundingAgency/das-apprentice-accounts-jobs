@@ -10,7 +10,9 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
     internal static class EsfaLoggingExtension
     {
         internal static void ConfigureLogging(this IFunctionsHostBuilder builder)
-            => builder.Services.AddLogging(ConfigureLogging);
+        {
+            builder.Services.AddLogging(ConfigureLogging);
+        }
 
         internal static void ConfigureLogging(this ILoggingBuilder logBuilder)
         {
