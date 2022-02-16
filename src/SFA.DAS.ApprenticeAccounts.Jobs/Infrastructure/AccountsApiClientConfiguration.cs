@@ -39,7 +39,6 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 
         private static bool UseManagedIdentity()
         {
-            return true;
             string environment = Environment.GetEnvironmentVariable("AZURE_FUNCTIONS_ENVIRONMENT") ?? "";
             return !environment.Equals("Development", StringComparison.OrdinalIgnoreCase);
         }
