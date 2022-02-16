@@ -30,11 +30,11 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
 
             var logger = LoggerFactory.Create(b => b.ConfigureLogging()).CreateLogger<Startup>();
 
-            AutoSubscribeToQueues.CreateQueuesWithReflection(
-                builder.GetContext().Configuration,
-                connectionStringName: "AzureWebJobsServiceBus",
-                logger: logger)
-                .GetAwaiter().GetResult();
+            //AutoSubscribeToQueues.CreateQueuesWithReflection(
+            //    builder.GetContext().Configuration,
+            //    connectionStringName: "AzureWebJobsServiceBus",
+            //    logger: logger)
+            //    .GetAwaiter().GetResult();
 
             builder.UseNServiceBus((IConfiguration appConfiguration) =>
             {
@@ -66,26 +66,23 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
             });
 
             builder.Services.AddApplicationOptions();
-            builder.Services.ConfigureFromOptions(f => f.ApprenticeCommitmentsApi);
-            builder.Services.ConfigureFromOptions(f => f.ApprenticeWeb);
-            builder.Services.ConfigureFromOptions(f => f.Notifications);
-            builder.Services.AddSingleton<IApimClientConfiguration>(x => x.GetRequiredService<ApprenticeCommitmentsApiOptions>());
+            builder.Services.ConfigureFromOptions(f => f.ApprenticeAccountsApi);
+            builder.Services.AddSingleton<IApimClientConfiguration>(x => x.GetRequiredService<ApiOptions>());
             builder.Services.AddTransient<Http.MessageHandlers.DefaultHeadersHandler>();
             builder.Services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();
             builder.Services.AddTransient<Http.MessageHandlers.ApimHeadersHandler>();
-            builder.Services.AddTransient<EmailService>();
 
-            var url = builder.Services
-                .BuildServiceProvider()
-                .GetRequiredService<ApprenticeCommitmentsApiOptions>()
-                .ApiBaseUrl;
+            //var url = builder.Services
+            //    .BuildServiceProvider()
+            //    .GetRequiredService<ApiOptions>()
+            //    .ApiBaseUrl;
 
-            builder.Services.AddRestEaseClient<IApprenticeAccountsApi>(url)
-                .AddHttpMessageHandler<Http.MessageHandlers.DefaultHeadersHandler>()
-                .AddHttpMessageHandler<Http.MessageHandlers.ApimHeadersHandler>()
-                .AddHttpMessageHandler<Http.MessageHandlers.LoggingMessageHandler>()
-                //.AddTypedClient<>
-                ;
+            //builder.Services.AddRestEaseClient<IApprenticeAccountsApi>(url)
+            //    .AddHttpMessageHandler<Http.MessageHandlers.DefaultHeadersHandler>()
+            //    .AddHttpMessageHandler<Http.MessageHandlers.ApimHeadersHandler>()
+            //    .AddHttpMessageHandler<Http.MessageHandlers.LoggingMessageHandler>()
+            //    //.AddTypedClient<>
+            //    ;
         }
 
         private static bool IsMessage(Type t) => t is IMessage || IsSfaMessage(t, "Messages");

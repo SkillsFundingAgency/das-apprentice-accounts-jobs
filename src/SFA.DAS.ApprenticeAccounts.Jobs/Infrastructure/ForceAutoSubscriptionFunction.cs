@@ -28,7 +28,16 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
 
     public class ForceAutoEventSubscriptionHandler : IHandleMessages<ForceAutoEventSubscription>
     {
+        private readonly ILogger<ForceAutoEventSubscriptionHandler> logger;
+
+        public ForceAutoEventSubscriptionHandler(ILogger<ForceAutoEventSubscriptionHandler> logger)
+        {
+            this.logger = logger;
+        }
         public Task Handle(ForceAutoEventSubscription message, IMessageHandlerContext context)
-            => Task.CompletedTask;
+        {
+            logger.LogInformation("Processing ForceAutoEventSubscription message");
+            return Task.CompletedTask;
+        }
     }
 }
