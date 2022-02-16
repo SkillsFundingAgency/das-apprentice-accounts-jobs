@@ -30,11 +30,11 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
 
             var logger = LoggerFactory.Create(b => b.ConfigureLogging()).CreateLogger<Startup>();
 
-            //AutoSubscribeToQueues.CreateQueuesWithReflection(
-            //    builder.GetContext().Configuration,
-            //    connectionStringName: "AzureWebJobsServiceBus",
-            //    logger: logger)
-            //    .GetAwaiter().GetResult();
+            AutoSubscribeToQueues.CreateQueuesWithReflection(
+                builder.GetContext().Configuration,
+                connectionStringName: "AzureWebJobsServiceBus",
+                logger: logger)
+                .GetAwaiter().GetResult();
 
             builder.UseNServiceBus((IConfiguration appConfiguration) =>
             {
@@ -71,18 +71,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
             builder.Services.AddTransient<Http.MessageHandlers.DefaultHeadersHandler>();
             builder.Services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();
             builder.Services.AddTransient<Http.MessageHandlers.ApimHeadersHandler>();
-
-            //var url = builder.Services
-            //    .BuildServiceProvider()
-            //    .GetRequiredService<ApiOptions>()
-            //    .ApiBaseUrl;
-
-            //builder.Services.AddRestEaseClient<IApprenticeAccountsApi>(url)
-            //    .AddHttpMessageHandler<Http.MessageHandlers.DefaultHeadersHandler>()
-            //    .AddHttpMessageHandler<Http.MessageHandlers.ApimHeadersHandler>()
-            //    .AddHttpMessageHandler<Http.MessageHandlers.LoggingMessageHandler>()
-            //    //.AddTypedClient<>
-            //    ;
+            builder.Services.AddInnerApi();
         }
 
         private static bool IsMessage(Type t) => t is IMessage || IsSfaMessage(t, "Messages");
