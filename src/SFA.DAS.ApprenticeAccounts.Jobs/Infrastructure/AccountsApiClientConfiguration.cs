@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using RestEase.HttpClientFactory;
 using SFA.DAS.ApprenticeAccounts.Jobs.Api;
+using SFA.DAS.Http.Configuration;
 using SFA.DAS.Http.TokenGenerators;
 using System;
 
@@ -10,7 +11,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
     {
         public static IServiceCollection AddInnerApi(this IServiceCollection services)
         {
-            //services.AddTransientFromRegistration<IApimClientConfiguration, ApiOptions>();
+            services.AddTransientFromRegistration<IApimClientConfiguration, ApiOptions>();
             services.AddTransient<IManagedIdentityTokenGenerator, ManagedIdentityTokenGenerator>();
             services.AddTransient<Http.MessageHandlers.DefaultHeadersHandler>();
             services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();
