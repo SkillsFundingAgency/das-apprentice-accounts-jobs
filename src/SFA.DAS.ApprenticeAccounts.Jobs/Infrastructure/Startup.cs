@@ -1,12 +1,8 @@
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NServiceBus;
-using RestEase.HttpClientFactory;
-using SFA.DAS.ApprenticeAccounts.Jobs.Api;
 using SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure;
-using SFA.DAS.Http.Configuration;
 using SFA.DAS.Notifications.Messages.Commands;
 using SFA.DAS.NServiceBus.Configuration.AzureServiceBus;
 using System;
@@ -67,10 +63,6 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
 
             builder.Services.AddApplicationOptions();
             builder.Services.ConfigureFromOptions(f => f.ApprenticeAccountsApi);
-            builder.Services.AddSingleton<IApimClientConfiguration>(x => x.GetRequiredService<ApiOptions>());
-            builder.Services.AddTransient<Http.MessageHandlers.DefaultHeadersHandler>();
-            builder.Services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();
-            builder.Services.AddTransient<Http.MessageHandlers.ApimHeadersHandler>();
             builder.Services.AddInnerApi();
         }
 

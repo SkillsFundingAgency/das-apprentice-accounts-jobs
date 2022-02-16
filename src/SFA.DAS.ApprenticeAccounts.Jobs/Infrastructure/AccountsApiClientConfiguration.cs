@@ -11,7 +11,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
     {
         public static IServiceCollection AddInnerApi(this IServiceCollection services)
         {
-            services.AddTransientFromRegistration<IApimClientConfiguration, ApiOptions>();
+            services.AddTransientFromRegistration<IManagedIdentityClientConfiguration, ApiOptions>();
             services.AddTransient<IManagedIdentityTokenGenerator, ManagedIdentityTokenGenerator>();
             services.AddTransient<Http.MessageHandlers.DefaultHeadersHandler>();
             services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();
