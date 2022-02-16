@@ -20,6 +20,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.LoginServiceEventHandler
         {
             _logger.LogInformation($"Received {nameof(UpdateEmailAddressCommand)} for apprentice {message.ApprenticeId}");
 
+            _ = _api ?? throw new ArgumentNullException(nameof(_api));
             _ = message 
                 ?? throw new ArgumentNullException(nameof(UpdateEmailAddressCommand));
             _ = message.CurrentEmailAddress 

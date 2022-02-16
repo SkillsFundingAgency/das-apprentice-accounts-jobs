@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using RestEase.HttpClientFactory;
 using SFA.DAS.ApprenticeAccounts.Jobs.Api;
-using SFA.DAS.Http.Configuration;
 using SFA.DAS.Http.TokenGenerators;
 using System;
 
