@@ -10,6 +10,6 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
     public class ApiOptions : IManagedIdentityClientConfiguration
     {
         public string ApiBaseUrl { get; set; } = null!;
-        public string Identifier { get; set; } = null!;
+        public string IdentifierUri { get; set; } = null!;
     }
 }

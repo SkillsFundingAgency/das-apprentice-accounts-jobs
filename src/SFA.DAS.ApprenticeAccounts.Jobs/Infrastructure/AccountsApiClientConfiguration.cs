@@ -11,8 +11,6 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
     {
         public static IServiceCollection AddInnerApi(this IServiceCollection services)
         {
-            services.AddTransientFromRegistration<IManagedIdentityClientConfiguration, ApiOptions>();
-            services.AddTransient<IManagedIdentityTokenGenerator, ManagedIdentityTokenGenerator>();
             services.AddTransient<Http.MessageHandlers.DefaultHeadersHandler>();
             services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();
 
@@ -23,20 +21,25 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
                     client.BaseAddress = new Uri(apiOptions.ApiBaseUrl);
                 })
                 .UseWithRestEaseClient<IApprenticeAccountsApi>()
-                .AddHttpMessageHandler<Http.MessageHandlers.DefaultHeadersHandler>()
-                .AddHttpMessageHandler<Http.MessageHandlers.LoggingMessageHandler>();
+                .AddHttpMessageHandler<Http.MessageHandlers.DefaultHeadersHandler>();
 
             if (UseManagedIdentity())
             {
+                services.AddTransientFromRegistration<IManagedIdentityClientConfiguration, ApiOptions>();
+                services.AddTransient<IManagedIdentityTokenGenerator, ManagedIdentityTokenGenerator>();
                 services.AddTransient<Http.MessageHandlers.ManagedIdentityHeadersHandler>();
+                
                 builder.AddHttpMessageHandler<Http.MessageHandlers.ManagedIdentityHeadersHandler>();
             }
+                
+            builder.AddHttpMessageHandler<Http.MessageHandlers.LoggingMessageHandler>();
 
             return services;
         }
 
         private static bool UseManagedIdentity()
         {
+            return true;
             string environment = Environment.GetEnvironmentVariable("AZURE_FUNCTIONS_ENVIRONMENT") ?? "";
             return !environment.Equals("Development", StringComparison.OrdinalIgnoreCase);
         }
