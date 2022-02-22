@@ -16,4 +16,5 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
             where TImplementation : TInterface
             => services.AddSingleton<TInterface>(s => s.GetRequiredService<TImplementation>());
     }
+
 }
