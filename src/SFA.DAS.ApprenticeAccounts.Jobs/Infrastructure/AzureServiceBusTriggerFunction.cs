@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.ServiceBus;
+﻿using Azure.Messaging.ServiceBus;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using NServiceBus;
@@ -15,11 +16,11 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 
         [FunctionName("ApprenticeshipCommitmentsJobs")]
         public async Task Run(
-            [ServiceBusTrigger(queueName: EndpointName, Connection = "AzureWebJobsServiceBus")] Message message,
+            [ServiceBusTrigger(queueName: EndpointName, Connection = "AzureWebJobsServiceBus")] ServiceBusReceivedMessage message,
             ILogger logger,
             ExecutionContext context)
         {
-            await endpoint.Process(message, context, logger);
+            await endpoint.ProcessNonAtomic(message, context, logger);
         }
     }
 }
