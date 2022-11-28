@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RestEase.HttpClientFactory;
 using SFA.DAS.ApprenticeAccounts.Jobs.Api;
@@ -25,7 +26,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 
             if (UseManagedIdentity())
             {
-                services.AddTransientFromRegistration<IManagedIdentityClientConfiguration, ApiOptions>();
+                services.AddTransient<IApimClientConfiguration, ApiOptions>();
                 services.AddTransient<IManagedIdentityTokenGenerator, ManagedIdentityTokenGenerator>();
                 services.AddTransient<Http.MessageHandlers.ManagedIdentityHeadersHandler>();
                 

@@ -8,7 +8,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
     public interface IApprenticeAccountsApi
     {
         [Get("/apprentices/{apprenticeid}")]
-        Task<Api.Apprentice> GetApprentice([Path] Guid apprenticeid);
+        Task<Apprentice> GetApprentice([Path] Guid apprenticeid);
 
         [Patch("/apprentices/{apprenticeId}")]
         Task UpdateApprentice([Path] Guid apprenticeId, [Body] JsonPatchDocument<Apprentice> patch);
