@@ -15,17 +15,22 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
     {
         internal static void ConfigureConfiguration(this IFunctionsConfigurationBuilder builder)
         {
-            builder.ConfigurationBuilder.AddJsonFile("local.settings.json", optional: true);
+            builder.ConfigurationBuilder
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("local.settings.json", optional: true);
 
             var preConfig = builder.ConfigurationBuilder.Build();
 
-            builder.ConfigurationBuilder.AddAzureTableStorage(options =>
+            if (!preConfig.IsLocalAcceptanceOrDev())
             {
-                options.ConfigurationKeys = preConfig["ConfigNames"].Split(",");
-                options.StorageConnectionString = preConfig["ConfigurationStorageConnectionString"];
-                options.EnvironmentName = preConfig["EnvironmentName"];
-                options.PreFixConfigurationKeys = false;
-            });
+                builder.ConfigurationBuilder.AddAzureTableStorage(options =>
+                {
+                    options.ConfigurationKeys = preConfig["ConfigNames"].Split(",");
+                    options.StorageConnectionString = preConfig["ConfigurationStorageConnectionString"];
+                    options.EnvironmentName = preConfig["EnvironmentName"];
+                    options.PreFixConfigurationKeys = false;
+                });
+            }
         }
 
         public static void AddApplicationOptions(this IServiceCollection services)
