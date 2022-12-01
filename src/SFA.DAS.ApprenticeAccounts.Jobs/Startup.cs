@@ -20,7 +20,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
         {
             builder.ConfigureConfiguration();
         }
-
+        
         public override void Configure(IFunctionsHostBuilder builder)
         {
             Configuration = builder.GetContext().Configuration;
@@ -35,7 +35,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
 
             builder.UseNServiceBus((IConfiguration appConfiguration) =>
             {
-                var configuration = ServiceBusEndpointFactory.CreateSingleQueueConfiguration(QueueNames.ApprenticeshipCommitmentsJobs, appConfiguration, useManagedIdentity);
+                var configuration = ServiceBusEndpointFactory.CreateSingleQueueConfiguration(QueueNames.ApprenticeAccountsJobs, appConfiguration, useManagedIdentity);
                 configuration.AdvancedConfiguration.UseNewtonsoftJsonSerializer();
                 configuration.AdvancedConfiguration.UseMessageConventions();
                 configuration.AdvancedConfiguration.EnableInstallers();
@@ -63,8 +63,8 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
         public void InitialiseNServiceBus()
         {
             var m = new NServiceBusResourceManager(Configuration, !Configuration.IsLocalAcceptanceOrDev());
-            m.CreateWorkAndErrorQueues(QueueNames.ApprenticeshipCommitmentsJobs).GetAwaiter().GetResult();
-            m.SubscribeToTopicForQueue(typeof(Startup).Assembly, QueueNames.ApprenticeshipCommitmentsJobs).GetAwaiter().GetResult();
+            m.CreateWorkAndErrorQueues(QueueNames.ApprenticeAccountsJobs).GetAwaiter().GetResult();
+            m.SubscribeToTopicForQueue(typeof(Startup).Assembly, QueueNames.ApprenticeAccountsJobs).GetAwaiter().GetResult();
         }
     }
 }

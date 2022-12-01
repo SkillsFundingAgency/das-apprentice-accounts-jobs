@@ -42,14 +42,6 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
             services.AddSingleton(s => s.GetRequiredService<IOptions<ApplicationSettings>>().Value);
         }
 
-        public static void ConfigureLogging(this ILoggingBuilder logBuilder)
-        {
-            logBuilder.AddFilter(typeof(Startup).Namespace, LogLevel.Information);
-            var rootDirectory = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, ".."));
-            var files = Directory.GetFiles(rootDirectory, "nlog.config", SearchOption.AllDirectories)[0];
-            logBuilder.AddNLog(files);
-        }
-
         public static void ConfigureFromOptions<TOptions>(this IServiceCollection services, Func<ApplicationSettings, TOptions> func)
             where TOptions : class, new()
         {

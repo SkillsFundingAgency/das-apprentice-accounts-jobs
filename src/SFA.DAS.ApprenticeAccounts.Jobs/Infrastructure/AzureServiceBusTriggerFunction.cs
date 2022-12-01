@@ -9,12 +9,12 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
     internal class AzureServiceBusTriggerFunction
     {
-        private const string EndpointName = QueueNames.ApprenticeshipCommitmentsJobs;
+        private const string EndpointName = QueueNames.ApprenticeAccountsJobs;
         private readonly IFunctionEndpoint endpoint;
 
         public AzureServiceBusTriggerFunction(IFunctionEndpoint endpoint) => this.endpoint = endpoint;
 
-        [FunctionName("ApprenticeshipCommitmentsJobs")]
+        [FunctionName("ApprenticeAccountsJobs")]
         public async Task Run(
             [ServiceBusTrigger(queueName: EndpointName, Connection = "AzureWebJobsServiceBus")] ServiceBusReceivedMessage message,
             ILogger logger,
