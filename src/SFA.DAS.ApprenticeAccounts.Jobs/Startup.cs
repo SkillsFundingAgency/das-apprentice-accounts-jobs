@@ -1,6 +1,8 @@
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 using NServiceBus;
 using RestEase.HttpClientFactory;
 using SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure;
@@ -27,7 +29,16 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
             var useManagedIdentity = !Configuration.IsLocalAcceptanceOrDev();
 
             builder.Services.AddApplicationInsightsTelemetry();
-            builder.Services.AddLogging();
+            builder.Services.AddLogging((options) =>
+            {
+                options.SetMinimumLevel(LogLevel.Trace);
+                options.SetMinimumLevel(LogLevel.Trace);
+                options.AddNLog(new NLogProviderOptions
+                {
+                    CaptureMessageTemplates = true,
+                    CaptureMessageProperties = true
+                });
+            });
 
             builder.Services.AddApplicationOptions();
             builder.Services.ConfigureFromOptions(f => f.ApprenticeAccountsApi);
