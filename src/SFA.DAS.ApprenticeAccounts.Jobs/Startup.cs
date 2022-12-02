@@ -26,6 +26,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
             Configuration = builder.GetContext().Configuration;
             var useManagedIdentity = !Configuration.IsLocalAcceptanceOrDev();
 
+            builder.Services.AddLogging();
             builder.Services.AddApplicationInsightsTelemetry();
             builder.Services.AddApplicationOptions();
             builder.Services.ConfigureFromOptions(f => f.ApprenticeAccountsApi);
