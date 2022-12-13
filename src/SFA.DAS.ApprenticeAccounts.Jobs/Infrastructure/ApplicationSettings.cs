@@ -7,9 +7,12 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
         public ApiOptions ApprenticeAccountsApi { get; set; } = null!;
     }
 
-    public class ApiOptions : IManagedIdentityClientConfiguration
+    public class ApiOptions : IApimClientConfiguration
     {
+        public const string ApprenticeAccountsInternalApi = "ApprenticeAccountsInternalApi";
         public string ApiBaseUrl { get; set; } = null!;
         public string IdentifierUri { get; set; } = null!;
+        public string SubscriptionKey { get; set; } = null!;
+        public string ApiVersion { get; set; } = null!;
     }
 }
