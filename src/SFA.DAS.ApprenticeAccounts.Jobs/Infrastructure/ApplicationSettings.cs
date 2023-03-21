@@ -15,13 +15,5 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
         public string SubscriptionKey { get; set; } = null!;
         public string ApiVersion { get; set; } = null!;
     }
-  
-
-    public class OuterApiConfiguration : IApimClientConfiguration
-    {
-        public string ApiBaseUrl { get; set; } = null!;
-        public string SubscriptionKey { get; set; } = null!;
-        public string ApiVersion { get; set; } = null!;
-    }
 
 }

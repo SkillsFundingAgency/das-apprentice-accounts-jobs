@@ -49,16 +49,11 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
             builder.Services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();
             builder.Services.AddTransient<Http.MessageHandlers.ApimHeadersHandler>();
 
-            var appConfig = Configuration.Get<OuterApiConfiguration>();
+            var appConfig = builder.Services.BuildServiceProvider().GetRequiredService<ApiOptions>();
             builder.Services.AddSingleton(appConfig);
             builder.Services.AddOuterApi(appConfig);
 
-            var url = builder.Services
-                .BuildServiceProvider()
-                .GetRequiredService<ApiOptions>()
-                .ApiBaseUrl;
-
-            builder.Services.AddRestEaseClient<ApiOptions>(url)
+            builder.Services.AddRestEaseClient<ApiOptions>(appConfig.ApiBaseUrl)
                 .AddHttpMessageHandler<Http.MessageHandlers.DefaultHeadersHandler>()
                 .AddHttpMessageHandler<Http.MessageHandlers.ApimHeadersHandler>()
                 .AddHttpMessageHandler<Http.MessageHandlers.LoggingMessageHandler>();

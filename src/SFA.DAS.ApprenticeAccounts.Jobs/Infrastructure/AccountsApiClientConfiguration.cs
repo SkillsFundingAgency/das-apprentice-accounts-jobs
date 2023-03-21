@@ -14,7 +14,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 
         public static IServiceCollection AddOuterApi(
             this IServiceCollection services,
-            OuterApiConfiguration configuration)
+            ApiOptions configuration)
         {
             services.AddTransient<Http.MessageHandlers.DefaultHeadersHandler>();
             services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();
