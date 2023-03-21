@@ -30,7 +30,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
             builder.Services.AddLogging();
             builder.Services.AddApplicationInsightsTelemetry();
             builder.Services.AddApplicationOptions();
-            builder.Services.ConfigureFromOptions(f => f.ApprenticeAccountsApi);
+            builder.Services.ConfigureFromOptions(f => f.ApprenticePortalOuterApi);
             builder.Services.AddSingleton<IApimClientConfiguration>(x => x.GetRequiredService<ApiOptions>());
 
             InitialiseNServiceBus();
