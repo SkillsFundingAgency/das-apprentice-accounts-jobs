@@ -1,6 +1,7 @@
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Identity.Client;
 using NServiceBus;
 using RestEase.HttpClientFactory;
 using SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure;
@@ -48,7 +49,9 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
             builder.Services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();
             builder.Services.AddTransient<Http.MessageHandlers.ApimHeadersHandler>();
 
-            builder.Services.AddInnerApi();
+            var appConfig = Configuration.Get<OuterApiConfiguration>();
+            builder.Services.AddSingleton(appConfig);
+            builder.Services.AddOuterApi(appConfig);
 
             var url = builder.Services
                 .BuildServiceProvider()
