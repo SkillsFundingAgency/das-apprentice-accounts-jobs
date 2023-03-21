@@ -20,6 +20,9 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure.OuterApi
         [Get("/apprentices/{id}")]
         Task<Apprentice> GetApprentice([Path] Guid id);
 
+        [Patch("/apprentices/{apprenticeId}")]
+        Task UpdateApprentice([Path] Guid apprenticeId, [Body] JsonPatchDocument<Api.Apprentice> patch);
+
         [Post("/apprenticeships")]
         Task ClaimApprenticeship([Body] ApprenticeshipAssociation association);
 
