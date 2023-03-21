@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using NServiceBus;
 using SFA.DAS.Apprentice.LoginService.Messages.Commands;
 using SFA.DAS.ApprenticeAccounts.Jobs.Api;
-using SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure.OuterApi;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.LoginServiceEventHandlers

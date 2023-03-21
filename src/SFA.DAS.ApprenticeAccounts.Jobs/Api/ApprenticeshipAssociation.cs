@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure.OuterApi
+namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
 {
     public class ApprenticeshipAssociation
     {

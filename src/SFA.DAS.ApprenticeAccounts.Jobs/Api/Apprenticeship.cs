@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure.OuterApi
+namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
 {
     public class Apprenticeship
     {
@@ -20,7 +20,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure.OuterApi
         public DeliveryModel DeliveryModel { get; set; }
         public string CourseName { get; set; } = null!;
         public int CourseLevel { get; set; }
-        public string? CourseOption { get; set; } = null!;
+        public string CourseOption { get; set; } = null!;
         public int CourseDuration { get; set; }
         public int DurationInMonths { get; set; }
         public DateTime PlannedStartDate { get; set; }
@@ -35,7 +35,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure.OuterApi
     {
         [Display(Name = "Regular")]
         Regular = 0,
-        
+
         [Display(Name = "Portable flexi-job")]
         PortableFlexiJob = 1,
 

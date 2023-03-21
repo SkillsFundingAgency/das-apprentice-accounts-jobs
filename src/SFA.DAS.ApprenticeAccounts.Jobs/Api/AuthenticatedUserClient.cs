@@ -1,8 +1,7 @@
-﻿using SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure.OuterApi;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using SFA.DAS.ApprenticePortal.Authentication;
 
-namespace SFA.DAS.ApprenticeCommitments.Web.Services
+namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
 {
     public class AuthenticatedUserClient
     {

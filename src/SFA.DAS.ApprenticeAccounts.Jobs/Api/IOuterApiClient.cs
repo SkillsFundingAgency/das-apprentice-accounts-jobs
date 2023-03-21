@@ -3,7 +3,7 @@ using RestEase;
 using System;
 using System.Threading.Tasks;
 
-namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure.OuterApi
+namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
 {
     public interface IOuterApiClient
     {
@@ -21,7 +21,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure.OuterApi
         Task<Apprentice> GetApprentice([Path] Guid id);
 
         [Patch("/apprentices/{apprenticeId}")]
-        Task UpdateApprentice([Path] Guid apprenticeId, [Body] JsonPatchDocument<Api.Apprentice> patch);
+        Task UpdateApprentice([Path] Guid apprenticeId, [Body] JsonPatchDocument<Apprentice> patch);
 
         [Post("/apprenticeships")]
         Task ClaimApprenticeship([Body] ApprenticeshipAssociation association);
