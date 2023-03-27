@@ -28,7 +28,6 @@ var transport = endpointConfiguration.UseTransport<AzureServiceBusTransport>();
 transport.AddRouting(routeSettings =>
 {
     routeSettings.RouteToEndpoint(typeof(LoginEmailAddressUpdated), queueName);
-    routeSettings.RouteToEndpoint(typeof(ApprenticeshipConfirmationConfirmed), queueName);
 });
 
 transport.ConnectionString(connectionString);
