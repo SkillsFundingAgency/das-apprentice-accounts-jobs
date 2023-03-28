@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.LoginServiceEventHandlers
 {
-    public class ApprenticeshipConfirmationConfirmed : IHandleMessages<ApprenticeshipConfirmationConfirmedEvent>
+    public class ApprenticeshipConfirmationConfirmedHandler : IHandleMessages<ApprenticeshipConfirmationConfirmedEvent>
     {
-        private readonly ILogger<ApprenticeshipConfirmationConfirmed> _logger;
+        private readonly ILogger<ApprenticeshipConfirmationConfirmedHandler> _logger;
         private readonly IOuterApiClient _outerApi;
 
-        public ApprenticeshipConfirmationConfirmed(IOuterApiClient outerApi, ILogger<ApprenticeshipConfirmationConfirmed> logger)
+        public ApprenticeshipConfirmationConfirmedHandler(IOuterApiClient outerApi, ILogger<ApprenticeshipConfirmationConfirmedHandler> logger)
             => (_outerApi, _logger) = (outerApi, logger);
 
         public Task Handle(ApprenticeshipConfirmationConfirmedEvent message, IMessageHandlerContext context)

@@ -6,6 +6,7 @@ using SFA.DAS.ApprenticeAccounts.Jobs.Api;
 using SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.LoginServiceEventHandlers;
 using SFA.DAS.ApprenticeAccounts.Jobs.InternalMessages.Commands;
 using SFA.DAS.ApprenticeCommitments.Messages.Events;
+using System;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Tests
@@ -15,16 +16,24 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Tests
         [Test, AutoMoqData]
         public async Task Then_notify_apim(
             [Frozen] Mock<IOuterApiClient> api,
-            ApprenticeshipConfirmationConfirmed sut,
+            ApprenticeshipConfirmationConfirmedHandler sut,
             ApprenticeshipConfirmationConfirmedEvent evt
             )
         {
+            ApprenticeshipConfirmedCommand expected = new ApprenticeshipConfirmedCommand
+            {
+                CommitmentsApprenticeshipId = evt.CommitmentsApprenticeshipId,
+                ApprovedOn = evt.CommitmentsApprovedOn
+            };
+
             await sut.Handle(evt, new TestableMessageHandlerContext());
 
             api.Verify(m => m.SendApprenticeshipConfirmed(
                 evt.ApprenticeId,
-                It.IsAny<ApprenticeshipConfirmedCommand>()
-            ));
+                It.Is<ApprenticeshipConfirmedCommand>(e =>
+                                                    e.ApprovedOn == expected.ApprovedOn
+                                                    && e.CommitmentsApprenticeshipId == expected.CommitmentsApprenticeshipId
+            )));
         }
     }
 }
