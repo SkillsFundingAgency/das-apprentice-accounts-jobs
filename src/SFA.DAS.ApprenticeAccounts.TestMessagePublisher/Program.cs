@@ -3,6 +3,7 @@ using NServiceBus;
 using SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.LoginServiceEventHandlers;
 using SFA.DAS.ApprenticeAccounts.Jobs.InternalMessages.Commands;
 using SFA.DAS.ApprenticeAccounts.Messages.Events;
+using SFA.DAS.ApprenticeCommitments.Messages.Events;
 using SFA.DAS.NServiceBus.Extensions;
 
 const string queueName = "SFA.DAS.ApprenticeAccounts";
@@ -41,10 +42,12 @@ while (true)
     Console.WriteLine("To Publish an Event please select the option...");
     Console.WriteLine("1. Publish ApprenticeEmailAddressChanged");
     Console.WriteLine("2. Send RemindApprenticeCommand");
+    Console.WriteLine("3. Send ApprenticeshipConfirmationConfirmedEvent");
     Console.WriteLine("X. Exit");
 
     var choice = Console.ReadLine()?.ToLower();
     var apprenticeId = Guid.NewGuid();
+    var commitmentsApprenticeshipId = 1;
 
     switch (choice)
     {
@@ -53,6 +56,9 @@ while (true)
             break;
         case "2":
             await SendMessage(endpointInstance, new RemindApprenticeCommand { RegistrationId = apprenticeId });
+            break;
+        case "3":
+            await PublishMessage(endpointInstance, new ApprenticeshipConfirmationConfirmedEvent { CommitmentsApprenticeshipId = commitmentsApprenticeshipId, ConfirmedOn = new DateTime() });
             break;
         case "x":
             await endpointInstance.Stop();
