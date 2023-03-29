@@ -15,7 +15,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Tests
     {
         [Test, AutoMoqData]
         public async Task Then_notify_apim(
-            [Frozen] Mock<IApprenticeAccountsApi> api,
+            [Frozen] Mock<IOuterApiClient> api,
             LoginEmailAddressUpdated sut,
             UpdateEmailAddressCommand evt)
         {

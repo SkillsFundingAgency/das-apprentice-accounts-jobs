@@ -1,6 +1,7 @@
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Identity.Client;
 using NServiceBus;
 using RestEase.HttpClientFactory;
 using SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure;
@@ -29,7 +30,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
             builder.Services.AddLogging();
             builder.Services.AddApplicationInsightsTelemetry();
             builder.Services.AddApplicationOptions();
-            builder.Services.ConfigureFromOptions(f => f.ApprenticeAccountsApi);
+            builder.Services.ConfigureFromOptions(f => f.ApprenticePortalOuterApi);
             builder.Services.AddSingleton<IApimClientConfiguration>(x => x.GetRequiredService<ApiOptions>());
 
             InitialiseNServiceBus();
@@ -48,14 +49,11 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs
             builder.Services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();
             builder.Services.AddTransient<Http.MessageHandlers.ApimHeadersHandler>();
 
-            builder.Services.AddInnerApi();
+            var appConfig = builder.Services.BuildServiceProvider().GetRequiredService<ApiOptions>();
+            builder.Services.AddSingleton(appConfig);
+            builder.Services.AddOuterApi(appConfig);
 
-            var url = builder.Services
-                .BuildServiceProvider()
-                .GetRequiredService<ApiOptions>()
-                .ApiBaseUrl;
-
-            builder.Services.AddRestEaseClient<ApiOptions>(url)
+            builder.Services.AddRestEaseClient<ApiOptions>(appConfig.ApiBaseUrl)
                 .AddHttpMessageHandler<Http.MessageHandlers.DefaultHeadersHandler>()
                 .AddHttpMessageHandler<Http.MessageHandlers.ApimHeadersHandler>()
                 .AddHttpMessageHandler<Http.MessageHandlers.LoggingMessageHandler>();

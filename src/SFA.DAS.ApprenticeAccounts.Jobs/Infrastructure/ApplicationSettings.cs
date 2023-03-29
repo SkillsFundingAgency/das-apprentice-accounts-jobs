@@ -4,15 +4,16 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
     public class ApplicationSettings
     {
-        public ApiOptions ApprenticeAccountsApi { get; set; } = null!;
+        public ApiOptions ApprenticePortalOuterApi { get; set; } = null!;
     }
 
     public class ApiOptions : IApimClientConfiguration
     {
-        public const string ApprenticeAccountsInternalApi = "ApprenticeAccountsInternalApi";
+        public const string ApprenticePortalOuterApi = "ApprenticePortalOuterApi";
         public string ApiBaseUrl { get; set; } = null!;
         public string IdentifierUri { get; set; } = null!;
         public string SubscriptionKey { get; set; } = null!;
         public string ApiVersion { get; set; } = null!;
     }
+
 }
