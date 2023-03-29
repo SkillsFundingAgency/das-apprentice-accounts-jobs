@@ -1,4 +1,7 @@
-﻿using WireMock.Logging;
+﻿using System.Net;
+using WireMock.Logging;
+using WireMock.RequestBuilders;
+using WireMock.ResponseBuilders;
 using WireMock.Server;
 using WireMock.Settings;
 
@@ -27,5 +30,31 @@ public class OuterApiBuilder
     public OuterApi Build()
     {
         return new OuterApi(_server);
+    }
+
+    public OuterApiBuilder WithApprenticePatch()
+    {
+        _server.Given(
+                Request.Create()
+                    .WithPath("/apprentices/*")
+                    .UsingPatch())
+            .RespondWith(
+                Response.Create()
+                    .WithStatusCode(HttpStatusCode.Accepted));
+
+        return this;
+    }
+
+    public OuterApiBuilder WithApprenticeshipConfirmation()
+    {
+        _server.Given(
+                Request.Create()
+                    .WithPath("/apprentices/*/my-apprenticeship")
+                    .UsingPost())
+            .RespondWith(
+                Response.Create()
+                    .WithStatusCode(HttpStatusCode.OK));
+
+        return this;
     }
 }

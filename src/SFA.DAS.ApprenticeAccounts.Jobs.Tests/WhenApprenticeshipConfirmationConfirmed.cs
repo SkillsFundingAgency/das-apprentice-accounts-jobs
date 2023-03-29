@@ -8,6 +8,7 @@ using SFA.DAS.ApprenticeAccounts.Jobs.InternalMessages.Commands;
 using SFA.DAS.ApprenticeCommitments.Messages.Events;
 using System;
 using System.Threading.Tasks;
+using SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.ApprenticeshipConfirmationEventHandlers;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Tests
 {
