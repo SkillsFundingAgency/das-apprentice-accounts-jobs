@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SFA.DAS.ApprenticeAccounts.Jobs.InternalMessages.Commands
+namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
 {
-    public class ApprenticeshipConfirmedCommand
+    public class ApprenticeshipConfirmedRequest
     {
         public long CommitmentsApprenticeshipId { get; set; }
         public DateTime ApprovedOn { get; set; }

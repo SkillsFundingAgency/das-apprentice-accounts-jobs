@@ -4,7 +4,6 @@ using NServiceBus.Testing;
 using NUnit.Framework;
 using SFA.DAS.ApprenticeAccounts.Jobs.Api;
 using SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.LoginServiceEventHandlers;
-using SFA.DAS.ApprenticeAccounts.Jobs.InternalMessages.Commands;
 using SFA.DAS.ApprenticeCommitments.Messages.Events;
 using System;
 using System.Threading.Tasks;
@@ -21,7 +20,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Tests
             ApprenticeshipConfirmationConfirmedEvent evt
             )
         {
-            ApprenticeshipConfirmedCommand expected = new ApprenticeshipConfirmedCommand
+            ApprenticeshipConfirmedRequest expected = new ApprenticeshipConfirmedRequest
             {
                 CommitmentsApprenticeshipId = evt.CommitmentsApprenticeshipId,
                 ApprovedOn = evt.CommitmentsApprovedOn
@@ -31,7 +30,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Tests
 
             api.Verify(m => m.SendApprenticeshipConfirmed(
                 evt.ApprenticeId,
-                It.Is<ApprenticeshipConfirmedCommand>(e =>
+                It.Is<ApprenticeshipConfirmedRequest>(e =>
                                                     e.ApprovedOn == expected.ApprovedOn
                                                     && e.CommitmentsApprenticeshipId == expected.CommitmentsApprenticeshipId
             )));

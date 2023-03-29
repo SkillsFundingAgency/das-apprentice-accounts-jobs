@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NServiceBus;
 using SFA.DAS.ApprenticeAccounts.Jobs.Api;
-using SFA.DAS.ApprenticeAccounts.Jobs.InternalMessages.Commands;
 using SFA.DAS.ApprenticeCommitments.Messages.Events;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.ApprenticeshipConfirmationEventHandlers
 {
@@ -19,7 +18,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.ApprenticeshipConfirmati
         {
             _logger.LogInformation($"Received {nameof(ApprenticeshipConfirmationConfirmedEvent)} for apprentice {message.ApprenticeId}");
 
-            return _outerApi.SendApprenticeshipConfirmed(message.ApprenticeId, new ApprenticeshipConfirmedCommand {
+            return _outerApi.SendApprenticeshipConfirmed(message.ApprenticeId, new ApprenticeshipConfirmedRequest {
                 CommitmentsApprenticeshipId = message.CommitmentsApprenticeshipId,
                 ApprovedOn = message.CommitmentsApprovedOn
             });

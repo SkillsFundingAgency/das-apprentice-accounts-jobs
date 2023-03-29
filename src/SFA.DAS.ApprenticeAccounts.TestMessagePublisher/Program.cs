@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NServiceBus;
 using SFA.DAS.Apprentice.LoginService.Messages.Commands;
-using SFA.DAS.ApprenticeAccounts.Jobs.InternalMessages.Commands;
-using SFA.DAS.ApprenticeAccounts.Messages.Events;
 using SFA.DAS.ApprenticeCommitments.Messages.Events;
 using SFA.DAS.NServiceBus.Extensions;
 
@@ -54,7 +52,7 @@ while (true)
             await SendMessage(endpointInstance,
                 new UpdateEmailAddressCommand
                 {
-                    ApprenticeId = apprenticeId, CurrentEmailAddress = "current@test,com",
+                    ApprenticeId = apprenticeId, CurrentEmailAddress = "current@test.com",
                     NewEmailAddress = "new@test.com"
                 });
             break;
