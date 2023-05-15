@@ -32,10 +32,6 @@
         "sharedServiceBusName": {
             "type": "string"
         },
-	      {
-        "sharedServiceBusFqdn": {
-            "type": "string"
-        }
         "sharedStorageAccountConnectionString": {
             "type": "securestring"
         },
@@ -214,10 +210,6 @@
                                 {
                                     "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                                     "value": "[reference(concat(variables('functionAppName'), '-app-insights-', parameters('utcValue'))).outputs.InstrumentationKey.value]"
-                                },
-                                {
-                                    "name": "AzureWebJobsServiceBus__fullyQualifiedNamespace",
-                                    "value": "[parameters('sharedServiceBusFqdn')]"
                                 },
                                 {
                                     "name": "AzureWebJobsStorage",
