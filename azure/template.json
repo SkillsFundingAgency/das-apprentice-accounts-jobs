@@ -280,7 +280,10 @@
             "value": "[parameters('sharedServiceBusName')]"
           }
         }
-      }
+      },
+      "dependsOn": [
+        "[concat(variables('functionAppName'), '-', parameters('utcValue'))]"
+      ]
     }
   ],
   "outputs": {
