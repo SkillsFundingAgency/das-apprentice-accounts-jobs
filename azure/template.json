@@ -1,5 +1,4 @@
 {
-
   "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json",
   "contentVersion": "1.0.0.0",
   "parameters": {
@@ -13,6 +12,9 @@
       "type": "string"
     },
     "sharedEnvResourceGroup": {
+      "type": "string"
+    },
+    "sharedServiceBusFqdn": {
       "type": "string"
     },
     "configurationStorageConnectionString": {
@@ -211,6 +213,10 @@
                 {
                   "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                   "value": "[reference(concat(variables('functionAppName'), '-app-insights-', parameters('utcValue'))).outputs.InstrumentationKey.value]"
+                },
+                {
+                  "name": "AzureWebJobsServiceBus__fullyQualifiedNamespace",
+                  "value": "[parameters('sharedServiceBusFqdn')]"
                 },
                 {
                   "name": "AzureWebJobsStorage",
