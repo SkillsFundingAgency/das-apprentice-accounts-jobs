@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NServiceBus;
-using SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.LoginServiceEventHandlers;
-using SFA.DAS.ApprenticeAccounts.Jobs.InternalMessages.Commands;
-using SFA.DAS.ApprenticeAccounts.Messages.Events;
+using SFA.DAS.Apprentice.LoginService.Messages.Commands;
+using SFA.DAS.ApprenticeCommitments.Messages.Events;
 using SFA.DAS.NServiceBus.Extensions;
 
 const string queueName = "SFA.DAS.ApprenticeAccounts";
@@ -27,7 +26,7 @@ endpointConfiguration.SendOnly();
 var transport = endpointConfiguration.UseTransport<AzureServiceBusTransport>();
 transport.AddRouting(routeSettings =>
 {
-    routeSettings.RouteToEndpoint(typeof(LoginEmailAddressUpdated), queueName);
+    routeSettings.RouteToEndpoint(typeof(UpdateEmailAddressCommand), queueName);
 });
 
 transport.ConnectionString(connectionString);
@@ -39,20 +38,32 @@ while (true)
 {
     Console.Clear();
     Console.WriteLine("To Publish an Event please select the option...");
-    Console.WriteLine("1. Publish ApprenticeEmailAddressChanged");
-    Console.WriteLine("2. Send RemindApprenticeCommand");
+    Console.WriteLine("1. Send UpdateEmailAddressCommand");
+    Console.WriteLine("2. Publish ApprenticeshipConfirmationConfirmedEvent");
     Console.WriteLine("X. Exit");
 
     var choice = Console.ReadLine()?.ToLower();
     var apprenticeId = Guid.NewGuid();
+    var commitmentsApprenticeshipId = 1;
 
     switch (choice)
     {
         case "1":
-            await PublishMessage(endpointInstance, new ApprenticeEmailAddressChanged { ApprenticeId = apprenticeId, ChangedOn = new DateTime() });
+            await SendMessage(endpointInstance,
+                new UpdateEmailAddressCommand
+                {
+                    ApprenticeId = apprenticeId, CurrentEmailAddress = "current@test.com",
+                    NewEmailAddress = "new@test.com"
+                });
             break;
         case "2":
-            await SendMessage(endpointInstance, new RemindApprenticeCommand { RegistrationId = apprenticeId });
+            await PublishMessage(endpointInstance, new ApprenticeshipConfirmationConfirmedEvent
+            {
+                ApprenticeId = apprenticeId,
+                CommitmentsApprenticeshipId = commitmentsApprenticeshipId, 
+                ConfirmedOn = DateTime.Now,
+                CommitmentsApprovedOn = DateTime.Today.AddDays(-2)
+            });
             break;
         case "x":
             await endpointInstance.Stop();

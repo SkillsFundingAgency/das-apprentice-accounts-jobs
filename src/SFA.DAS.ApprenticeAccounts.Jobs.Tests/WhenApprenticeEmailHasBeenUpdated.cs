@@ -16,7 +16,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Tests
         [Test, AutoMoqData]
         public async Task Then_notify_apim(
             [Frozen] Mock<IOuterApiClient> api,
-            LoginEmailAddressUpdated sut,
+            UpdateEmailAddressCommandHandler sut,
             UpdateEmailAddressCommand evt)
         {
             await sut.Handle(evt, new TestableMessageHandlerContext());
