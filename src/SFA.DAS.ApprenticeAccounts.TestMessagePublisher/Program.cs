@@ -1,33 +1,28 @@
 ﻿using Microsoft.Extensions.Configuration;
-using NServiceBus;
 using SFA.DAS.Apprentice.LoginService.Messages.Commands;
 using SFA.DAS.ApprenticeCommitments.Messages.Events;
-using SFA.DAS.NServiceBus.Extensions;
 
 const string queueName = "SFA.DAS.ApprenticeAccounts";
 
 IConfiguration config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
-    .AddJsonFile("appsettings.development.json", optional: true)
+    .AddJsonFile("appsettings.development.json", optional: false)
     .Build();
 
-var connectionString = config["NServiceBusConnection"];
-if (connectionString is null)
-    throw new NotSupportedException("NServiceBusConnection should contain ServiceBus connection string");
-
+var connectionString = config["Values:NServiceBusConnectionString"] ?? throw new NotSupportedException("NServiceBusConnection should contain ServiceBus connection string");
 
 var endpointConfiguration = new EndpointConfiguration("SFA.DAS.ApprenticeAccounts");
 endpointConfiguration.EnableInstallers();
-endpointConfiguration.UseMessageConventions();
-endpointConfiguration.UseNewtonsoftJsonSerializer();
+endpointConfiguration.UseSerialization<NewtonsoftJsonSerializer>();
+endpointConfiguration.Conventions()
+    .DefiningEventsAs(t => t.Namespace != null && t.Namespace.EndsWith("Events"))
+    .DefiningMessagesAs(t => t.Namespace != null && t.Namespace.EndsWith("Messages"))
+    .DefiningCommandsAs(t => t.Namespace != null && t.Namespace.EndsWith("Commands"));
 
 endpointConfiguration.SendOnly();
 
 var transport = endpointConfiguration.UseTransport<AzureServiceBusTransport>();
-transport.AddRouting(routeSettings =>
-{
-    routeSettings.RouteToEndpoint(typeof(UpdateEmailAddressCommand), queueName);
-});
+transport.Routing().RouteToEndpoint(typeof(UpdateEmailAddressCommand), queueName);
 
 transport.ConnectionString(connectionString);
 

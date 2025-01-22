@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 
-namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure;
+namespace SFA.DAS.ApprenticeAccounts.Jobs.Extensions;
 
 public static class ConfigurationExtensions
 {

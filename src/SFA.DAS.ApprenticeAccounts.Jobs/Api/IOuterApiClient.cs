@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using RestEase;
-using System;
-using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
 {
