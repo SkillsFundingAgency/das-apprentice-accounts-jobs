@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Logging;
-using NServiceBus;
 using SFA.DAS.Apprentice.LoginService.Messages.Commands;
 using SFA.DAS.ApprenticeAccounts.Jobs.Api;
 

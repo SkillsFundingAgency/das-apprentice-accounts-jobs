@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure;
+using SFA.DAS.ApprenticeAccounts.Jobs.Configuration;
 using SFA.DAS.Configuration.AzureTableStorage;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Extensions
@@ -36,11 +36,13 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Extensions
             return services;
         }
 
-        public static void ConfigureFromOptions<TOptions>(this IServiceCollection services, Func<ApplicationSettings, TOptions> func)
+        public static IServiceCollection ConfigureFromOptions<TOptions>(this IServiceCollection services, Func<ApplicationSettings, TOptions> func)
             where TOptions : class, new()
         {
             services.AddSingleton(s =>
                 func(s.GetRequiredService<IOptions<ApplicationSettings>>().Value));
+            
+            return services;
         }
     }
 }

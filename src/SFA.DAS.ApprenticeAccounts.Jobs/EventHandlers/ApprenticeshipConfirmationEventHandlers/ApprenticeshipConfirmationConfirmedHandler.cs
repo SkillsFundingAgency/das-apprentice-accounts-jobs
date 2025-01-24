@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using NServiceBus;
 using SFA.DAS.ApprenticeAccounts.Jobs.Api;
 using SFA.DAS.ApprenticeCommitments.Messages.Events;
-using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.ApprenticeshipConfirmationEventHandlers
 {

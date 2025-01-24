@@ -1,16 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RestEase.HttpClientFactory;
+using SFA.DAS.ApprenticeAccounts.Jobs.Configuration;
 using SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure;
 using SFA.DAS.Http.Configuration;
-using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Extensions
 {
-    [ExcludeFromCodeCoverage]
-    public static class AddApplicationRegistrationsExtension
+    public static class AddServiceRegistrationsExtension
     {
-        public static IServiceCollection AddApplicationRegistrations(this IServiceCollection services)
-        {  
+        public static IServiceCollection AddServiceRegistrations(this IServiceCollection services)
+        {
             services.AddSingleton<IApimClientConfiguration>(x => x.GetRequiredService<ApiOptions>());
             services.AddTransient<Http.MessageHandlers.DefaultHeadersHandler>();
             services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();

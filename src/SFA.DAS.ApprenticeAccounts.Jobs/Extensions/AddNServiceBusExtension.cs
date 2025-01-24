@@ -1,8 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using SFA.DAS.Apprentice.LoginService.Messages.Commands;
-using SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure;
+using SFA.DAS.ApprenticeAccounts.Jobs.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
@@ -11,15 +9,17 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Extensions
     [ExcludeFromCodeCoverage]
     public static class AddNServiceBusExtension
     {
-        public const string EndpointName = "SFA.DAS.ApprenticesAccounts.Jobs";
-
         public static IHostBuilder ConfigureNServiceBus(this IHostBuilder hostBuilder, string endpointName)
         {
             hostBuilder.UseNServiceBus((config, endpointConfiguration) =>
             {
                 endpointConfiguration.AdvancedConfiguration.EnableInstallers();
                 endpointConfiguration.AdvancedConfiguration.SendFailedMessagesTo($"{endpointName}-error");
-                
+                endpointConfiguration.AdvancedConfiguration.Conventions()
+                    .DefiningCommandsAs(IsCommand)
+                    .DefiningEventsAs(IsEvent)
+                    .DefiningMessagesAs(IsMessage);
+
                 var value = config["NServiceBusLicense"];
                 if (!string.IsNullOrEmpty(value))
                 {
@@ -27,15 +27,22 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Extensions
                     endpointConfiguration.AdvancedConfiguration.License(decodedLicence);
                 }
 
-#if DEBUG
-                var transport = endpointConfiguration.AdvancedConfiguration.UseTransport<LearningTransport>();
-                transport.StorageDirectory(Path.Combine(Directory.GetCurrentDirectory().Substring(0, Directory.GetCurrentDirectory().IndexOf("src")),
-                    @"src\.learningtransport"));
-#endif
-                endpointConfiguration.Routing.RouteToEndpoint(typeof(UpdateEmailAddressCommand), QueueNames.NotificationsQueue);
+                endpointConfiguration.Routing.RouteToEndpoint(typeof(UpdateEmailAddressCommand), QueueNames.ApprenticeAccountsJobs);
+
             });
 
             return hostBuilder;
         }
+
+        private static bool IsMessage(Type t) => t is IMessage || IsDasMessage(t, "Messages");
+
+        private static bool IsEvent(Type t) => t is IEvent || IsDasMessage(t, "Messages.Events");
+
+        private static bool IsCommand(Type t) => t is ICommand || IsDasMessage(t, "Messages.Commands");
+
+        private static bool IsDasMessage(Type t, string namespaceSuffix)
+            => t.Namespace != null &&
+               t.Namespace.StartsWith("SFA.DAS") &&
+               t.Namespace.EndsWith(namespaceSuffix);
     }
 }

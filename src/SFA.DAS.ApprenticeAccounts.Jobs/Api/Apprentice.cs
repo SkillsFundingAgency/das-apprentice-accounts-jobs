@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
+﻿namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
 {
     public class Apprentice
     {

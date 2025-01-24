@@ -1,36 +1,30 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Azure.Functions.Worker;
-using SFA.DAS.ApprenticeAccounts.Jobs.Extensions;
-using SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.ApplicationInsights;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SFA.DAS.ApprenticeAccounts.Jobs.Configuration;
+using SFA.DAS.ApprenticeAccounts.Jobs.Extensions;
 
-//[assembly: NServiceBusTriggerFunction(QueueNames.ApprenticeAccountsJobs)]
+[assembly: NServiceBusTriggerFunction(QueueNames.ApprenticeAccountsJobs)]
+var host = new HostBuilder()
 
-    var host = new HostBuilder()
-    .ConfigureFunctionsWebApplication()
-    .ConfigureAppConfiguration(
-        builder =>
-        {
-            builder.AddConfiguration();
-        })
-    .ConfigureNServiceBus(QueueNames.ApprenticeAccountsJobs)
-    .ConfigureServices((context, services) =>
+.ConfigureFunctionsWebApplication()
+.ConfigureAppConfiguration(
+    builder =>
     {
-
-        services.AddLogging(builder =>
-        {
-            builder.AddFilter<ApplicationInsightsLoggerProvider>(string.Empty, LogLevel.Information);
-            builder.AddFilter<ApplicationInsightsLoggerProvider>("Microsoft", LogLevel.Information);
-        });
-        services.AddApplicationOptions();
-        services.AddApplicationRegistrations();
-        services.AddApplicationInsightsTelemetryWorkerService()
-        .ConfigureFunctionsApplicationInsights();
+        builder.AddConfiguration();
     })
-    .Build();
+.ConfigureNServiceBus(QueueNames.ApprenticeAccountsJobs)
+
+.ConfigureServices((context, services) =>
+ {
+     services
+
+        .AddApplicationInsightsTelemetryWorkerService()
+        .ConfigureFunctionsApplicationInsights()
+        .AddApplicationOptions()
+        .ConfigureFromOptions(f => f.ApprenticePortalOuterApi)
+        .AddServiceRegistrations();
+ })
+
+ .Build();
 await host.RunAsync();
-
-

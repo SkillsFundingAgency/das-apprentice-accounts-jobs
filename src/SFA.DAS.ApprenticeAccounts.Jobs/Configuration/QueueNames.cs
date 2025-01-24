@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
+﻿namespace SFA.DAS.ApprenticeAccounts.Jobs.Configuration
 {
     public static class QueueNames
     {

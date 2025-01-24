@@ -1,11 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using RestEase.HttpClientFactory;
 using SFA.DAS.ApprenticeAccounts.Jobs.Api;
+using SFA.DAS.ApprenticeAccounts.Jobs.Configuration;
 using SFA.DAS.Http.Configuration;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
-    internal static class AccountsApiClientConfiguration
+    internal static class AccountsApiClientExtension
     {
 
         public static IServiceCollection AddOuterApi(
