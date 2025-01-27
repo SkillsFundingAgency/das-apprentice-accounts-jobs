@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Hosting;
 using SFA.DAS.Apprentice.LoginService.Messages.Commands;
-using SFA.DAS.ApprenticeAccounts.Jobs.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
-namespace SFA.DAS.ApprenticeAccounts.Jobs.Extensions
+namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
     [ExcludeFromCodeCoverage]
     public static class AddNServiceBusExtension

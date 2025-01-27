@@ -1,8 +1,7 @@
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SFA.DAS.ApprenticeAccounts.Jobs.Configuration;
-using SFA.DAS.ApprenticeAccounts.Jobs.Extensions;
+using SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure;
 
 [assembly: NServiceBusTriggerFunction(QueueNames.ApprenticeAccountsJobs)]
 var host = new HostBuilder()

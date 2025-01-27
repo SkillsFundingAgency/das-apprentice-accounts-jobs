@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="4.0.1" />
     <PackageReference Include="SFA.DAS.ApprenticeAccounts.Messages" Version="0.1.13" />
   </ItemGroup>
 

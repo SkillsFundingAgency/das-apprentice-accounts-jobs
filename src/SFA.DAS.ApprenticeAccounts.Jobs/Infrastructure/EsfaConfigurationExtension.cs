@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using SFA.DAS.ApprenticeAccounts.Jobs.Configuration;
 using SFA.DAS.Configuration.AzureTableStorage;
 
-namespace SFA.DAS.ApprenticeAccounts.Jobs.Extensions
+namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
     public static class EsfaConfigurationExtension
     {
@@ -41,7 +40,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Extensions
         {
             services.AddSingleton(s =>
                 func(s.GetRequiredService<IOptions<ApplicationSettings>>().Value));
-            
+
             return services;
         }
     }

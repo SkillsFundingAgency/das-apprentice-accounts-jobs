@@ -1,6 +1,6 @@
 ﻿using SFA.DAS.Http.Configuration;
 
-namespace SFA.DAS.ApprenticeAccounts.Jobs.Configuration
+namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
     public class ApplicationSettings
     {
