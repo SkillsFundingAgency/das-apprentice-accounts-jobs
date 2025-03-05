@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.0" />
     <PackageReference Include="WireMock.Net" Version="1.6.11" />
     <PackageReference Include="WireMock.Net.StandAlone" Version="1.6.11" />
   </ItemGroup>
