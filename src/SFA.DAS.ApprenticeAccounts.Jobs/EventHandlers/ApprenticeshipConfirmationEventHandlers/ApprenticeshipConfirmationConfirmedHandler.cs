@@ -14,7 +14,8 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.ApprenticeshipConfirmati
 
         public Task Handle(ApprenticeshipConfirmationConfirmedEvent message, IMessageHandlerContext context)
         {
-            _logger.LogInformation($"Received {nameof(ApprenticeshipConfirmationConfirmedEvent)} for apprentice {message.ApprenticeId}");
+            string logMessage = $"Received ApprenticeshipConfirmationConfirmedEvent for apprentice {message.ApprenticeId}";
+            _logger.LogInformation(logMessage);
 
             return _outerApi.SendApprenticeshipConfirmed(message.ApprenticeId, new ApprenticeshipConfirmedRequest {
                 CommitmentsApprenticeshipId = message.CommitmentsApprenticeshipId,
