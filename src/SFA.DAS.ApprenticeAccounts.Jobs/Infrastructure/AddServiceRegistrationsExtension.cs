@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RestEase.HttpClientFactory;
 using SFA.DAS.Http.Configuration;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
+    [ExcludeFromCodeCoverage]
     public static class AddServiceRegistrationsExtension
     {
         public static IServiceCollection AddServiceRegistrations(this IServiceCollection services)

@@ -2,9 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SFA.DAS.Configuration.AzureTableStorage;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
+    [ExcludeFromCodeCoverage]
     public static class EsfaConfigurationExtension
     {
         public static void AddConfiguration(this IConfigurationBuilder builder)
