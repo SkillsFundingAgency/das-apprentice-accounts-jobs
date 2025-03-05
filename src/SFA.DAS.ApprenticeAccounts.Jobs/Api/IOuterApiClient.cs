@@ -11,7 +11,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
         [Patch("/apprentices/{id}")]
         Task UpdateApprentice([Path] Guid id, [Body] JsonPatchDocument<Apprentice> patch);
 
-        [Post("/apprentices/{id}/my-apprenticeship")]
+        [Post("/apprentices/{id}/myapprenticeship")]
         Task SendApprenticeshipConfirmed([Path] Guid id, [Body] ApprenticeshipConfirmedRequest message);
     }
 }

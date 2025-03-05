@@ -49,7 +49,7 @@ public class OuterApiBuilder
     {
         _server.Given(
                 Request.Create()
-                    .WithPath("/apprentices/*/my-apprenticeship")
+                    .WithPath("/apprentices/*/myapprenticeship")
                     .UsingPost())
             .RespondWith(
                 Response.Create()
