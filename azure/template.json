@@ -217,7 +217,7 @@
                         "value": "[variables('functionAppName')]"
                     },
                     "scopedResourceId": {
-                        "value": "[reference(concat(variables('functionAppName'), '-private-link-scoped-', parameters('utcValue'))).outputs.AppInsightsResourceId.value]"
+                        "value": "[reference(concat(variables('functionAppName'), '-app-insights-', parameters('utcValue'))).outputs.AppInsightsResourceId.value]"
                     }
                 }
             }
