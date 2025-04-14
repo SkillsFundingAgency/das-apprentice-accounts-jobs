@@ -22,7 +22,7 @@
         },
         "deployPrivateLinkedScopedResource": {
             "type": "bool"
-        }
+        },
         "loggingRedisConnectionString": {
             "type": "securestring"
         },
