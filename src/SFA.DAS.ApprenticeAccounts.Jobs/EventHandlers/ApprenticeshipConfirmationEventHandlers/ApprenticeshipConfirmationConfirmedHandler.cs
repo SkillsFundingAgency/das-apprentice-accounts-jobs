@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using SFA.DAS.ApprenticeAccounts.Jobs.Api;
 using SFA.DAS.ApprenticeCommitments.Messages.Events;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.ApprenticeshipConfirmationEventHandlers
 {
+    [ExcludeFromCodeCoverage]
     public class ApprenticeshipConfirmationConfirmedHandler : IHandleMessages<ApprenticeshipConfirmationConfirmedEvent>
     {
         private readonly ILogger<ApprenticeshipConfirmationConfirmedHandler> _logger;

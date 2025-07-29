@@ -2,9 +2,11 @@
 using Microsoft.Extensions.Logging;
 using SFA.DAS.Apprentice.LoginService.Messages.Commands;
 using SFA.DAS.ApprenticeAccounts.Jobs.Api;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.LoginServiceEventHandlers
 {
+    [ExcludeFromCodeCoverage]
     public class UpdateEmailAddressCommandHandler : IHandleMessages<UpdateEmailAddressCommand>
     {
         private readonly ILogger<UpdateEmailAddressCommandHandler> _logger;
