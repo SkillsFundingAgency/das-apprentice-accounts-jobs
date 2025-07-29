@@ -356,3 +356,4 @@ MigrationBackup/
 #SonarQube 
 /.sonarqube/
 /.scannerwork/
+/src/.sonarqube/
