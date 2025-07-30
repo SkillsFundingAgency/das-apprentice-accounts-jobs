@@ -3,9 +3,6 @@ using Microsoft.Extensions.Configuration;
 using SFA.DAS.Apprentice.LoginService.Messages.Commands;
 using SFA.DAS.ApprenticeCommitments.Messages.Events;
 
-[ExcludeFromCodeCoverage]
-internal partial class Program { }
-
 const string queueName = "SFA.DAS.ApprenticeAccounts";
 IConfiguration config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
@@ -41,7 +38,8 @@ while (true)
             await SendMessage(endpointInstance,
                 new UpdateEmailAddressCommand
                 {
-                    ApprenticeId = apprenticeId, CurrentEmailAddress = "current@test.com",
+                    ApprenticeId = apprenticeId,
+                    CurrentEmailAddress = "current@test.com",
                     NewEmailAddress = "new@test.com"
                 });
             break;
@@ -75,3 +73,6 @@ async Task SendMessage(IMessageSession messageSession, object message)
     Console.WriteLine("Press enter to continue");
     Console.ReadLine();
 }
+
+[ExcludeFromCodeCoverage]
+internal partial class Program { }
