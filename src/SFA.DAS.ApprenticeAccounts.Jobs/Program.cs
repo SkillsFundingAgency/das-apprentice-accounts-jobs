@@ -5,25 +5,28 @@ using Microsoft.Extensions.Hosting;
 using SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure;
 [assembly: NServiceBusTriggerFunction(QueueNames.ApprenticeAccountsJobs)]
 
-[ExcludeFromCodeCoverage]
-public static class Program
+namespace SFA.DAS.ApprenticeAccounts.Jobs
 {
-    public static async Task Main()
+    [ExcludeFromCodeCoverage]
+    public static class Program
     {
-        var host = new HostBuilder()
-            .ConfigureFunctionsWebApplication()
-            .ConfigureAppConfiguration(builder => builder.AddConfiguration())
-            .ConfigureNServiceBus(QueueNames.ApprenticeAccountsJobs)
-            .ConfigureServices((context, services) =>
-            {
-                services
-                    .AddApplicationInsightsTelemetryWorkerService()
-                    .ConfigureFunctionsApplicationInsights()
-                    .AddApplicationOptions()
-                    .ConfigureFromOptions(f => f.ApprenticePortalOuterApi)
-                    .AddServiceRegistrations();
-            })
-            .Build();
-        await host.RunAsync();
+        public static async Task Main()
+        {
+            var host = new HostBuilder()
+                .ConfigureFunctionsWebApplication()
+                .ConfigureAppConfiguration(builder => builder.AddConfiguration())
+                .ConfigureNServiceBus(QueueNames.ApprenticeAccountsJobs)
+                .ConfigureServices((context, services) =>
+                {
+                    services
+                        .AddApplicationInsightsTelemetryWorkerService()
+                        .ConfigureFunctionsApplicationInsights()
+                        .AddApplicationOptions()
+                        .ConfigureFromOptions(f => f.ApprenticePortalOuterApi)
+                        .AddServiceRegistrations();
+                })
+                .Build();
+            await host.RunAsync();
+        }
     }
 }
