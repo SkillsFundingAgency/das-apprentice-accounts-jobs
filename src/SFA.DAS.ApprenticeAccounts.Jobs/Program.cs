@@ -27,5 +27,3 @@ var host = new HostBuilder()
 
  .Build();
 await host.RunAsync();
-
-[ExcludeFromCodeCoverage] public partial class Program { }
