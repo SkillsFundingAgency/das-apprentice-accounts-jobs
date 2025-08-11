@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Logging;
-using NServiceBus;
 using SFA.DAS.Apprentice.LoginService.Messages.Commands;
 using SFA.DAS.ApprenticeAccounts.Jobs.Api;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.LoginServiceEventHandlers
 {
+    [ExcludeFromCodeCoverage]
     public class UpdateEmailAddressCommandHandler : IHandleMessages<UpdateEmailAddressCommand>
     {
         private readonly ILogger<UpdateEmailAddressCommandHandler> _logger;
@@ -17,7 +17,8 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.EventHandlers.LoginServiceEventHandler
 
         public Task Handle(UpdateEmailAddressCommand message, IMessageHandlerContext context)
         {
-            _logger.LogInformation($"Received {nameof(UpdateEmailAddressCommand)} for apprentice {message.ApprenticeId}");
+            string logMessage = $"Received UpdateEmailAddressCommand for apprentice {message.ApprenticeId}";
+            _logger.LogInformation(logMessage);
             var requestBody = new JsonPatchDocument<Api.Apprentice>().Replace(x => x.Email, message.NewEmailAddress);
 
             return _outerApi.UpdateApprentice(message.ApprenticeId, requestBody);

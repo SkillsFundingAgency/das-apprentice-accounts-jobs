@@ -15,5 +15,4 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
         public string SubscriptionKey { get; set; } = null!;
         public string ApiVersion { get; set; } = null!;
     }
-
 }

@@ -1,14 +1,13 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RestEase.HttpClientFactory;
 using SFA.DAS.ApprenticeAccounts.Jobs.Api;
 using SFA.DAS.Http.Configuration;
-using SFA.DAS.Http.TokenGenerators;
-using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
-    internal static class AccountsApiClientConfiguration
+    [ExcludeFromCodeCoverage]
+    internal static class AccountsApiClientExtension
     {
 
         public static IServiceCollection AddOuterApi(
@@ -18,8 +17,6 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
             services.AddTransient<Http.MessageHandlers.DefaultHeadersHandler>();
             services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();
             services.AddTransient<Http.MessageHandlers.ApimHeadersHandler>();
-
-            global::NLog.LogManager.GetLogger("ServicesStartup").Info("ApiBaseUrl: {url}", configuration.ApiBaseUrl);
 
             services
                 .AddRestEaseClient<IOuterApiClient>(configuration.ApiBaseUrl)
