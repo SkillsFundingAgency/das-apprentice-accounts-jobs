@@ -1,49 +1,50 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SFA.DAS.Configuration.AzureTableStorage;
-using System.Diagnostics.CodeAnalysis;
+using System;
+using System.IO;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
-    [ExcludeFromCodeCoverage]
-    public static class EsfaConfigurationExtension
+    internal static class EsfaConfigurationExtension
     {
-        public static void AddConfiguration(this IConfigurationBuilder builder)
+        internal static void ConfigureConfiguration(this IFunctionsConfigurationBuilder builder)
         {
-            builder
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("local.settings.json", optional: true);
+            builder.ConfigurationBuilder
+                .SetBasePath(Directory.GetCurrentDirectory());
+                
 
-            var config = builder.Build();
+            var preConfig = builder.ConfigurationBuilder.Build();
 
-            builder.AddAzureTableStorage(options =>
+            if (!preConfig.IsAcceptanceOrDev())
             {
-                options.ConfigurationKeys = config["ConfigNames"].Split(",");
-                options.StorageConnectionString = config["ConfigurationStorageConnectionString"];
-                options.EnvironmentName = config["EnvironmentName"];
-                options.PreFixConfigurationKeys = false;
-            });
+                builder.ConfigurationBuilder.AddAzureTableStorage(options =>
+                {
+                    options.ConfigurationKeys = preConfig["ConfigNames"].Split(",");
+                    options.StorageConnectionString = preConfig["ConfigurationStorageConnectionString"];
+                    options.EnvironmentName = preConfig["EnvironmentName"];
+                    options.PreFixConfigurationKeys = false;
+                });
+            }
+            builder.ConfigurationBuilder.AddJsonFile("local.settings.json", optional: true);
         }
 
-        public static IServiceCollection AddApplicationOptions(this IServiceCollection services)
+        public static void AddApplicationOptions(this IServiceCollection services)
         {
             services
                 .AddOptions<ApplicationSettings>()
                 .Configure<IConfiguration>((settings, configuration) =>
                     configuration.Bind(settings));
             services.AddSingleton(s => s.GetRequiredService<IOptions<ApplicationSettings>>().Value);
-
-            return services;
         }
 
-        public static IServiceCollection ConfigureFromOptions<TOptions>(this IServiceCollection services, Func<ApplicationSettings, TOptions> func)
+        public static void ConfigureFromOptions<TOptions>(this IServiceCollection services, Func<ApplicationSettings, TOptions> func)
             where TOptions : class, new()
         {
             services.AddSingleton(s =>
                 func(s.GetRequiredService<IOptions<ApplicationSettings>>().Value));
-
-            return services;
         }
     }
 }

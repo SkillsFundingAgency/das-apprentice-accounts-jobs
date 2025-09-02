@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.ApprenticeAccounts.Jobs", "SFA.DAS.ApprenticeAccounts.Jobs\SFA.DAS.ApprenticeAccounts.Jobs.csproj", "{A543E49B-30A5-4D97-9F43-4F5154D7A70D}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.ApprenticeAccounts.Jobs.Tests", "SFA.DAS.ApprenticeAccounts.Jobs.Tests\SFA.DAS.ApprenticeAccounts.Jobs.Tests.csproj", "{00A299C4-70A8-4EA2-B329-A4D53DFC7BF7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{1251318F-2A14-4592-A1BE-244FC4E409D4}"
@@ -11,14 +13,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.ApprenticeAccounts.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.ApprenticeAccounts.TestMessagePublisher", "SFA.DAS.ApprenticeAccounts.TestMessagePublisher\SFA.DAS.ApprenticeAccounts.TestMessagePublisher.csproj", "{E28DED85-BC4D-4140-A29D-E75DBC0C3A40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ApprenticeAccounts.Jobs", "SFA.DAS.ApprenticeAccounts.Jobs\SFA.DAS.ApprenticeAccounts.Jobs.csproj", "{629E90A0-9DC8-4ABB-A784-932E77F946D8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A543E49B-30A5-4D97-9F43-4F5154D7A70D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A543E49B-30A5-4D97-9F43-4F5154D7A70D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A543E49B-30A5-4D97-9F43-4F5154D7A70D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A543E49B-30A5-4D97-9F43-4F5154D7A70D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{00A299C4-70A8-4EA2-B329-A4D53DFC7BF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{00A299C4-70A8-4EA2-B329-A4D53DFC7BF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00A299C4-70A8-4EA2-B329-A4D53DFC7BF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,10 +35,6 @@ Global
 		{E28DED85-BC4D-4140-A29D-E75DBC0C3A40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E28DED85-BC4D-4140-A29D-E75DBC0C3A40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E28DED85-BC4D-4140-A29D-E75DBC0C3A40}.Release|Any CPU.Build.0 = Release|Any CPU
-		{629E90A0-9DC8-4ABB-A784-932E77F946D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{629E90A0-9DC8-4ABB-A784-932E77F946D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{629E90A0-9DC8-4ABB-A784-932E77F946D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{629E90A0-9DC8-4ABB-A784-932E77F946D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

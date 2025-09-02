@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using RestEase;
+using System;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
 {
@@ -11,7 +13,7 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
         [Patch("/apprentices/{id}")]
         Task UpdateApprentice([Path] Guid id, [Body] JsonPatchDocument<Apprentice> patch);
 
-        [Post("/apprentices/{id}/myapprenticeship")]
+        [Post("/apprentices/{id}/my-apprenticeship")]
         Task SendApprenticeshipConfirmed([Path] Guid id, [Body] ApprenticeshipConfirmedRequest message);
     }
 }

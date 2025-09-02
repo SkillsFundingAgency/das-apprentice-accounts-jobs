@@ -86,7 +86,6 @@ StyleCopReport.xml
 *.tlh
 *.tmp
 *.tmp_proj
-*.trx
 *_wpftmp.csproj
 *.log
 *.vspscc
@@ -141,7 +140,6 @@ _TeamCity*
 !.axoCover/settings.json
 
 # Visual Studio code coverage results
-/coverage.*
 *.coverage
 *.coveragexml
 
@@ -352,8 +350,3 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-
-#SonarQube 
-/.sonarqube/
-/.scannerwork/
-/src/.sonarqube/
