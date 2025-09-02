@@ -1,4 +1,6 @@
-﻿namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
+﻿using System;
+
+namespace SFA.DAS.ApprenticeAccounts.Jobs.Api
 {
     public class ApprenticeshipConfirmedRequest
     {
