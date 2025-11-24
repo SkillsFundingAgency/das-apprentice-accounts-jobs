@@ -1,32 +1,28 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using RestEase.HttpClientFactory;
-using SFA.DAS.ApprenticeAccounts.Jobs.Api;
 using SFA.DAS.Http.Configuration;
-using SFA.DAS.Http.TokenGenerators;
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
     [ExcludeFromCodeCoverage]
-    internal static class AccountsApiClientConfiguration
+    public static class AddServiceRegistrationsExtension
     {
-        public static IServiceCollection AddOuterApi(
-            this IServiceCollection services,
-            ApiOptions configuration)
+        public static IServiceCollection AddServiceRegistrations(this IServiceCollection services)
         {
+            services.AddSingleton<IApimClientConfiguration>(x => x.GetRequiredService<ApiOptions>());
             services.AddTransient<Http.MessageHandlers.DefaultHeadersHandler>();
             services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();
             services.AddTransient<Http.MessageHandlers.ApimHeadersHandler>();
 
-            services
-                .AddRestEaseClient<IOuterApiClient>(configuration.ApiBaseUrl)
+            var appConfig = services.BuildServiceProvider().GetRequiredService<ApiOptions>();
+            services.AddSingleton(appConfig);
+            services.AddOuterApi(appConfig);
+
+            services.AddRestEaseClient<ApiOptions>(appConfig.ApiBaseUrl)
                 .AddHttpMessageHandler<Http.MessageHandlers.DefaultHeadersHandler>()
                 .AddHttpMessageHandler<Http.MessageHandlers.ApimHeadersHandler>()
                 .AddHttpMessageHandler<Http.MessageHandlers.LoggingMessageHandler>();
-
-            services.AddTransient<IApimClientConfiguration>((_) => configuration);
 
             return services;
         }
