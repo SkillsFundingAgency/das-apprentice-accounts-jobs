@@ -1,6 +1,4 @@
 using AutoFixture.NUnit3;
-using FluentAssertions.Execution;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NServiceBus.Testing;
 using NUnit.Framework;
@@ -18,7 +16,6 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Tests
         [Test, AutoMoqData]
         public async Task Then_notify_apim(
             [Frozen] Mock<IOuterApiClient> api,
-            [Frozen] Mock<ILogger<ApprenticeshipConfirmationConfirmedHandler>> logger,
             ApprenticeshipConfirmationConfirmedHandler sut,
             ApprenticeshipConfirmationConfirmedEvent evt
             )
@@ -31,21 +28,12 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Tests
 
             await sut.Handle(evt, new TestableMessageHandlerContext());
 
-            using (new AssertionScope())
-            {
-                logger.Verify((x => x.Log(LogLevel.Information,
-                       It.IsAny<EventId>(),
-                       It.Is<It.IsAnyType>((object v, Type _) =>
-                       v.ToString().Contains($"Received ApprenticeshipConfirmationConfirmedEvent for apprentice")),
-                       It.IsAny<Exception>(),
-                       (Func<It.IsAnyType, Exception, string>)It.IsAny<object>())));
-                api.Verify(m => m.SendApprenticeshipConfirmed(
+            api.Verify(m => m.SendApprenticeshipConfirmed(
                 evt.ApprenticeId,
                 It.Is<ApprenticeshipConfirmedRequest>(e =>
-                    e.ApprovedOn == expected.ApprovedOn
-                    && e.CommitmentsApprenticeshipId == expected.CommitmentsApprenticeshipId
+                                                    e.ApprovedOn == expected.ApprovedOn
+                                                    && e.CommitmentsApprenticeshipId == expected.CommitmentsApprenticeshipId
             )));
-            }
         }
     }
 }

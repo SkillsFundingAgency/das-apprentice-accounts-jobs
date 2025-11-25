@@ -5,13 +5,12 @@ using SFA.DAS.ApprenticeAccounts.Jobs.Api;
 using SFA.DAS.Http.Configuration;
 using SFA.DAS.Http.TokenGenerators;
 using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
 {
-    [ExcludeFromCodeCoverage]
     internal static class AccountsApiClientConfiguration
     {
+
         public static IServiceCollection AddOuterApi(
             this IServiceCollection services,
             ApiOptions configuration)
@@ -19,6 +18,8 @@ namespace SFA.DAS.ApprenticeAccounts.Jobs.Infrastructure
             services.AddTransient<Http.MessageHandlers.DefaultHeadersHandler>();
             services.AddTransient<Http.MessageHandlers.LoggingMessageHandler>();
             services.AddTransient<Http.MessageHandlers.ApimHeadersHandler>();
+
+            global::NLog.LogManager.GetLogger("ServicesStartup").Info("ApiBaseUrl: {url}", configuration.ApiBaseUrl);
 
             services
                 .AddRestEaseClient<IOuterApiClient>(configuration.ApiBaseUrl)
