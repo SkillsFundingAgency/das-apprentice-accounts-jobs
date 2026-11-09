@@ -83,7 +83,7 @@
         },
         "logAnalyticsWorkspaceName": {
             "type": "string"
-        }
+        },
         "EnableRouteTableAssociation": {
             "type": "bool",
             "defaultValue": false,
@@ -306,7 +306,7 @@
                                     "value": "1.0"
                                 },
                                 {
-                                    "name": "APPINSIGHTS_CONNECTION_STRING",
+                                    "name": "APPLICATION_INSIGHTS_CONNECTION_STRING",
                                     "value": "[reference(concat(variables('functionAppName'), '-app-insights-', parameters('utcValue'))).outputs.ConnectionString.value]"
                                 },
                                 {
