@@ -306,7 +306,7 @@
                                     "value": "1.0"
                                 },
                                 {
-                                    "name": "APPLICATION_INSIGHTS_CONNECTION_STRING",
+                                    "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
                                     "value": "[reference(concat(variables('functionAppName'), '-app-insights-', parameters('utcValue'))).outputs.ConnectionString.value]"
                                 },
                                 {
