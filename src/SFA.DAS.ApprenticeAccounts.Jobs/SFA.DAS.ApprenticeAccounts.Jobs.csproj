@@ -15,14 +15,14 @@
 		<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="2.1.1" />
 		<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.ServiceBus" Version="5.24.0" />
 		<PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.1.0" />
-		<PackageReference Include="NServiceBus" Version="9.2.12" />
-		<PackageReference Include="NServiceBus.AzureFunctions.Worker.ServiceBus" Version="5.2.4" />
-		<PackageReference Include="NServiceBus.Extensions.Hosting" Version="3.0.1" />
+		<PackageReference Include="NServiceBus" Version="10.2.10" />
+		<PackageReference Include="NServiceBus.AzureFunctions.Worker.ServiceBus" Version="7.1.2" />
+		<PackageReference Include="NServiceBus.Transport.AzureServiceBus" Version="6.5.2" />
 		<PackageReference Include="RestEase" Version="1.6.4" />
 		<PackageReference Include="RestEase.HttpClientFactory" Version="1.6.4" />
 		<PackageReference Include="SFA.DAS.Apprentice.LoginService.Messages" Version="0.1.195" />
-		<PackageReference Include="SFA.DAS.ApprenticeCommitments.Messages" Version="0.1.116" />
-		<PackageReference Include="SFA.DAS.Configuration.AzureTableStorage" Version="17.1.113" />
+		<PackageReference Include="SFA.DAS.ApprenticeCommitments.Messages" Version="0.1.118" />
+		<PackageReference Include="SFA.DAS.Configuration.AzureTableStorage" Version="17.1.165" />
 		<PackageReference Include="SFA.DAS.Http" Version="3.2.69" />
 	</ItemGroup>
 	<ItemGroup>
@@ -36,5 +36,8 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
+	</ItemGroup>
+	<ItemGroup>
+		<InternalsVisibleTo Include="SFA.DAS.ApprenticeAccounts.Jobs.Tests" />
 	</ItemGroup>
 </Project>

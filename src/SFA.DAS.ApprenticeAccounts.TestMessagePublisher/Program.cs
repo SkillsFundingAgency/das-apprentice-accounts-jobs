@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
+using NServiceBus.Transport.AzureServiceBus;
 using SFA.DAS.Apprentice.LoginService.Messages.Commands;
 using SFA.DAS.ApprenticeCommitments.Messages.Events;
 
@@ -30,9 +31,12 @@ namespace SFA.DAS.ApprenticeAccounts.TestMessagePublisher
                 .DefiningCommandsAs(t => t.Namespace != null && t.Namespace.EndsWith("Commands"));
 
             endpointConfiguration.SendOnly();
-            var transport = endpointConfiguration.UseTransport<AzureServiceBusTransport>();
-            transport.Routing().RouteToEndpoint(typeof(UpdateEmailAddressCommand), QueueName);
-            transport.ConnectionString(connectionString);
+            // Publish to the single "bundle-1" topic, the same as the NServiceBus 7 publishers in the real system.
+            var topology = TopicTopology.Default;
+            topology.UseFallbackTopic("bundle-1", TopicRoutingMode.SqlLikeFilter);
+            var transport = new AzureServiceBusTransport(connectionString, topology);
+            var routing = endpointConfiguration.UseTransport(transport);
+            routing.RouteToEndpoint(typeof(UpdateEmailAddressCommand), QueueName);
 
             var endpointInstance = await Endpoint.Start(endpointConfiguration)
                 .ConfigureAwait(false);
